@@ -56,6 +56,19 @@
             .input{
                 border: 3px solid #555;
             }
+            .column {
+                float: left;
+                width: 50%;
+                padding: 10px;
+                height: 300px; /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
 
             .button_example{
                 border:1px solid #17BD59; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:20px;font-family:helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: 0px 0px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
@@ -82,7 +95,7 @@
         <center><div id='pub-addition' class='textbox-btn'>
             <input type='text' class='input' placeholder='New Publisher'>
             <button class='button_example'>Add</button>
-    
+
             </div></center><br/>
         <center><h1>Subscribers</h1></center>
 

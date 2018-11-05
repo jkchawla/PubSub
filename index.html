@@ -22,8 +22,12 @@
                 text-align: center;
                 opacity: 0.8;
                 overflow: hidden;
-                background-color: turquoise;
+                background-color: mediumturquoise;
 
+            }
+            p{
+                font-family: sans-serif;
+                font-size: 20px;
             }
             h1{
                 font-family: sans-serif;
@@ -43,7 +47,11 @@
             }
 
             .input{
+                font-family: sans-serif;
+                font-size: 20px;
+
                 width: 100%;
+
                 padding: 12px 20px;
                 margin: 8px 0;
                 box-sizing: border-box;
@@ -55,6 +63,36 @@
 
             .input{
                 border: 3px solid #555;
+            }
+            .split {
+                height: 100%;
+                width: 50%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                overflow-x: hidden;
+                padding-top: 20px;
+            }
+
+            .left {
+                left: 0;
+                top:11%;
+                background-color: aliceblue;
+            }
+
+
+            .right {
+                right: 0;
+                top:11%;
+                background-color: antiquewhite;
+            }
+
+            .centered {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
             }
             .column {
                 float: left;
@@ -90,24 +128,49 @@
                 background-image: linear-gradient(to bottom, #11D2BF, #0db0ab);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#11D2BF, endColorstr=#0db0ab);
             }
         </style>
-        <div class = header>Phase 2</div>
-        <center><h1>Publishers</h1></center>
-        <center><div id='pub-addition' class='textbox-btn'>
-            <input type='text' class='input' placeholder='New Publisher'>
-            <button class='button_example'>Add</button>
+        <div class = "header">PUBSUB</div> 
+        <div class="split left">
+            <center><h1>Publishers</h1></center>
 
-            </div></center><br/>
-        <center><h1>Subscribers</h1></center>
+            <center><div id='addPub' class='textbox-btn'>
+                <input type='text' class='input' placeholder='Add a Publisher'>
+                <button class='button_example'>Add</button></center>
 
-        <center><div id='sub-addition' class='textbox-btn'>
-            <input type='text' class='input' placeholder='New Subscriber'>
-            <button class='button_example'>Add</button>
-            </div></center><br/>
-        <script src='node_modules/jquery/dist/jquery.js'></script>
-        <script src='node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
-        <script src='node_modules/mustache/mustache.js'></script>
-        <script src='pubsub.js'></script>
-        <script src='scripts.js'></script>
+                <div id='publist'>
+                    {{#publishers}}
+                    <div class='publisher'>
+                        <h4>{{name}}</h4>
+                        <input type='text' class='input' placeholder='Topic'>
+                        <textarea  class='input' placeholder='Data'></textarea>
+                        <button class='button_example'>Publish</button>
+
+                        <ul>
+                            <p>{{#works}}</p>
+                            <li> 
+                                <p>{{topic}}</p>
+                                <p>{{payload}}</p>
+                            </li>
+                            <p>{{/works}}<p>
+                        </ul>
+                    </div>
+                    {{/publishers}}
+    
+                </div></div>
+            <div class="split right">
+                <center><h1>Subscribers</h1></center>
+
+                <center><div id='sub-addition' class='textbox-btn'>
+                    <input type='text' class='input' placeholder='Add a Subscriber'>
+                    <button class='button_example'>Add</button>
+                    </div></center><br/>
+                <script src='node_modules/jquery/dist/jquery.js'></script>
+                <script src='node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+                <script src='node_modules/mustache/mustache.js'></script>
+                <script src='pubsub.js'></script>
+                <script src='execution.js'></script>
+            </div>
+
+        </div>
 
     </head>
 </html>

@@ -1,25 +1,28 @@
 
 var events = {
-  events: {},
-  on: function (eventName, fn) {
-    this.events[eventName] = this.events[eventName] || [];
-    this.events[eventName].push(fn);
-  },
-  off: function(eventName, fn) {
-    if (this.events[eventName]) {
-      for (var i = 0; i < this.events[eventName].length; i++) {
-        if (this.events[eventName][i] === fn) {
-          this.events[eventName].splice(i, 1);
-          break;
+    events: {},
+    on: function (event_name, func) {
+        this.events[event_name] = this.events[event_name] || [];
+        this.events[event_name].push(func);
+    },
+    off: function(event_name, func) {
+        if (this.events[event_name]) {
+            var x =0;
+            while(i<this.events[event_name].length){
+                if (this.events[event_name][i] === func) {
+                    this.events[event_name].splice(i, 1);
+                    break;
+                }
+                i++;
+
+            };
         }
-      };
+    },
+    trigger: function (event_name, data) {
+        if (this.events[event_name]) {
+            this.events[event_name].forEach(function(func) {
+                func(data);
+            });
+        }
     }
-  },
-  trigger: function (eventName, data) {
-    if (this.events[eventName]) {
-      this.events[eventName].forEach(function(fn) {
-        fn(data);
-      });
-    }
-  }
 };

@@ -1,106 +1,255 @@
 
 (function(){
-	var $el = $('#addPub')
-	var template = $el.html()
+    var $element = $('#addPub')
+    var ex = $element.html()
 
-	$el.delegate('button','click',op)
+    $element.delegate('button','click',open_op)
 
-	render()
+    render()
 
-	function op(event){
-		$currentEl = $(event.target)
-		name = $el.find('input')[0].value
-		operation = $currentEl.html().toLowerCase()
-		events.trigger("pub_" + operation,name)
-		render()
-	}
+    function open_op(event){
+        $elem_curr = $(event.target)
+        name = $element.find('input')[0].value
+        operation = $elem_curr.html().toLowerCase()
+        events.trigger("pub_" + operation,name)
+        render()
+    }
 
-	function render(){
-		$el.find('input').val('')
-	}
+    function render(){
+        $element.find('input').val('')
+    }
 })();
+
 var Publisher = (function(){
 
-	var publishers = []
+    var publishers = []
 
-	var $el = $('#publist')
-	var template = $el.html()
+    var $element = $('#publist')
+    var ex = $element.html()
 
-	$el.delegate('button','click',send)
+    $element.delegate('button','click',send)
 
-	events.on('pub_add', add)
+    events.on('pub_add', add)
+    events.on('pub_delete', del)
 
-	_render();
+    _render();
 
-	function _render(){
-		data = {
-				publishers: publishers
-		}
-		$el.html(Mustache.render(template, data))
-	}
+    function _render(){
+        data = {
+            publishers: publishers
+        }
+        $element.html(Mustache.render(ex, data))
+    }
 
-	function get(indx){
-		indx = indx || -1
-		if(indx != -1)
-			return publishers[indx]
-		return publishers;
-	}
+    function get(indx){
+        indx = indx || -1
+        if(indx != -1)
+            return publishers[indx]
+        return publishers;
+    }
 
-	function add(name){
+    function add(name){
+        if (!(name)) {
+            alert('PLEASE GIVE YOUR PUBLISHER A NAME!')
+            return
+        }
 
-		pubs = publishers.map(function(pub, indx){
-			return pub.name.toLowerCase()
-		});
+        pubs = publishers.map(function(pub, indx){
+            return pub.name.toLowerCase()
+        });
 
-		indx = pubs.indexOf(name.toLowerCase())
-		if(indx != -1) {
-			alert(name + ' is already a publisher!')
-			return
-		}
+        indx = pubs.indexOf(name.toLowerCase())
+        if(indx != -1) {
+            alert(name + ' is already a publisher!')
+            return
+        }
 
-		publishers.push({'name' : name})
-		_render()
-	}
+        publishers.push({'name' : name})
+        _render()
+    }
+    function del(pub){
+        if (!(name)) {
+            alert('PLEASE SPECIFY THE PUBLISHER YOU WANT TO DELETE')
+            return
+        }
+        pubs = publishers.map(function(publisher){
+            return publisher.name;
+        });
+
+        indx = pubs.indexOf(pub);
+
+        if(indx != -1) {
+            publishers.splice(indx, 1)
+            _render()
+        }
+    }	
 
 
-	function send(event){
-        $currentEl = $(event.target)
-        $pub = $currentEl.closest('.publisher');
+    function send(event){
+        $elem_curr = $(event.target)
+        $pub = $elem_curr.closest('.publisher');
         name = $pub.find('h4').html();
         topic = $pub.find('input')[0].value;
         payload = $pub.find('textarea')[0].value;
 
-		work = {
-			'name':name,
-			'topic': topic,
-			'payload': payload
-		};
+        work = {
+            'name':name,
+            'topic': topic,
+            'payload': payload
+        };
 
-		pubs = publishers.map(function(publisher){
-			return publisher.name;
-		});
+        pubs = publishers.map(function(publisher){
+            return publisher.name;
+        });
 
-		indx = pubs.indexOf(work.name);
+        indx = pubs.indexOf(work.name);
 
-		publishers[indx].works = publishers[indx].works || []
+        publishers[indx].works = publishers[indx].works || []
 
-		publishers[indx].works.push({
-			'topic':topic,
-			'payload':payload
-		});
+        publishers[indx].works.push({
+            'topic':topic,
+            'payload':payload
+        });
 
-		_render();
+        _render();
 
-		events.trigger('notify', work)
-	}
+        events.trigger('notify', work)
+    }
 
-	return {
-		get: get,
-		send: send
-	}
+    return {
+        get: get,
+        send: send
+    }
 
 })();
 
+
+;(function($){
+    var $element = $('#addSub')
+    var ex_sub = $element.html()
+
+    $element.delegate('button','click',open_op)
+
+    render()
+
+    function open_op(event){
+        $currentEl = $(event.target)
+        name = $element.find('input')[0].value
+        operation = $currentEl.html().toLowerCase() 
+        events.trigger("sub_" + operation,name)
+        render()
+    }
+
+    function render(){
+        $element.find('input').val('')
+    }
+})(jQuery);
+
+
+var Subscriber = (function(){
+
+    var subscribers = [];
+
+    var $element = $('#subList')
+    var ex_sub= $element.html()
+
+    //bindEvents
+    $element.delegate('button','click',addTopic)
+    events.on('notify', _notify)
+    events.on('sub_add', add)
+    events.on('sub_delete', del)
+
+    _render() 
+
+    function _render(){
+        data = {
+            subscribers: subscribers
+        }
+
+        $element.html(Mustache.render(ex_sub, data))
+    }
+
+    function get(indx){
+        indx = indx || -1
+        if(indx != -1)
+            return subscribers[indx]
+        return subscribers;
+    }
+
+    function add(name){
+        if (!(name)) {
+            alert('PLEASE GIVE YOUR SUBSCRIBER A NAME!')
+            return
+        }
+        subs = subscribers.map(function(sub, indx){
+            if (!(sub.name.toLowerCase())) {
+                alert('PLEASE WRITE A NAME!')
+                return
+            }
+            return sub.name.toLowerCase()
+        });
+
+        indx = subs.indexOf(name.toLowerCase())
+        if(indx != -1) {
+            alert(name + ' already exists!')
+            return
+        }
+
+        subscribers.push({'name' : name})
+        _render()
+    }
+
+    function del(name){
+        if (!(name)) {
+            alert('PLEASE SPECIFY THE SUBSCRIBER YOU WANT TO DELETE')
+            return
+        }
+        subs = subscribers.map(function(sub, indx){
+            return sub.name
+        });
+
+        indx = subs.indexOf(name)
+
+        if(indx != -1) {
+            subscribers.splice(indx, 1)
+            _render()
+            return
+        }
+
+        alert('NOT FOUND: '+name)
+    }
+
+    function _notify(info){
+        subscribers.forEach(function(sub, indx){
+            sub.topics = sub.topics || []
+            sub.notifications = sub.notifications || []
+            if(sub.topics.indexOf(info.topic) != -1)
+                sub.notifications.push(info)
+        });
+
+        _render()
+    }
+
+
+    function addTopic(event){
+        $currentEl = $(event.target)
+        $sub = $currentEl.closest('.subscriber');
+        name = $sub.find('h3').html();
+        topic = $sub.find('input')[0].value;
+
+        subscribers.forEach(function(sub, indx){
+            if(name.toLowerCase() == sub.name.toLowerCase()){
+                sub.topics = sub.topics || []
+                if(sub.topics.indexOf(topic) == -1){
+                    sub.topics.push(topic);
+                    _render()
+                    return;
+                }
+            }
+        });
+    }
+
+})();
 
 
 

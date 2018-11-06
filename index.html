@@ -32,8 +32,10 @@
             h1{
                 font-family: sans-serif;
                 font-size: 30px;
-
-
+            }
+            h2{
+                font-family: sans-serif;
+                font-size: 20px;
             }
 
             .textbox-btn{
@@ -134,7 +136,9 @@
 
             <center><div id='addPub' class='textbox-btn'>
                 <input type='text' class='input' placeholder='Add a Publisher'>
-                <button class='button_example'>Add</button></center>
+                <button class='button_example'>Add</button>
+                <button class='button_example'>Delete</button>
+                </center>
 
                 <div id='publist'>
                     {{#publishers}}
@@ -154,21 +158,46 @@
                         </ul>
                     </div>
                     {{/publishers}}
-    
+
                 </div></div>
             <div class="split right">
                 <center><h1>Subscribers</h1></center>
 
-                <center><div id='sub-addition' class='textbox-btn'>
+                <center><div id='addSub' class='textbox-btn'>
                     <input type='text' class='input' placeholder='Add a Subscriber'>
                     <button class='button_example'>Add</button>
-                    </div></center><br/>
-                <script src='node_modules/jquery/dist/jquery.js'></script>
-                <script src='node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
-                <script src='node_modules/mustache/mustache.js'></script>
-                <script src='pubsub.js'></script>
-                <script src='execution.js'></script>
-            </div>
+                    <button class='button_example'>Delete</button>
+                    </div>
+                    <div id='subList'>
+                        {{#subscribers}}
+                        <div class='subscriber'>
+                            <h3>{{name}}</h3>
+                            <input type='text' class='input' placeholder='Add Topic'>
+                            <button class='button_example'>Subscribe</button>
+                            <h2>Following</h2>
+                            <ul class='topics'>
+                                {{#topics}}
+                                <li> {{.}}
+                                    {{/topics}}
+                            </ul>
+
+                            <h2>Notifications</h2>
+                            <ul class='notifications'>
+                                {{#notifications}}
+                                <li> <b>{{topic}}: </b>{{payload}} - <i>{{name}}</i>
+                                    {{/notifications}}
+                            </ul>
+                        </div>
+                        {{/subscribers}}
+                        <br style='clear:both' />
+                    </div>
+    
+                </center><br/>
+            <script src='modules/jquery/dist/jquery.js'></script>
+            <script src='modules/mustache/mustache.js'></script>
+            <script src='pubsub.js'></script>
+            <script src='execution.js'></script>
+        </div>
 
         </div>
 

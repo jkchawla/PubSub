@@ -40,8 +40,8 @@
 
             .textbox-btn{
                 width:600px;
-                margin-top:20px; 
-                margin-bottom:20px; 
+                margin-top:20px;
+                margin-bottom:20px;
             }
             .textbox-btn input{
                 width:90%;
@@ -130,7 +130,7 @@
                 background-image: linear-gradient(to bottom, #11D2BF, #0db0ab);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#11D2BF, endColorstr=#0db0ab);
             }
         </style>
-        <div class = "header">PUBSUB</div> 
+        <div class = "header">PUBSUB</div>
         <div class="split left">
             <center><h1>Publishers</h1></center>
 
@@ -143,6 +143,7 @@
                 <div id='publist'>
                     {{#publishers}}
                     <div class='publisher'>
+                      <center>
                         <h4>{{name}}</h4>
                         <input type='text' class='input' placeholder='Topic'>
                         <textarea  class='input' placeholder='Data'></textarea>
@@ -150,12 +151,13 @@
 
                         <ul>
                             <p>{{#works}}</p>
-                            <li> 
+                            <li>
                                 <p>{{topic}}</p>
                                 <p>{{payload}}</p>
                             </li>
                             <p>{{/works}}<p>
                         </ul>
+                      </center>
                     </div>
                     {{/publishers}}
 
@@ -189,9 +191,9 @@
                             </ul>
                         </div>
                         {{/subscribers}}
-                        <br style='clear:both' /><br><br><br><br>
+                        <br style='clear:both' /><br><br><br><br><br>
                     </div>
-    
+
                 </center><br/>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.js'></script>
@@ -203,4 +205,3 @@
 
     </head>
 </html>
-

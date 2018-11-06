@@ -50,7 +50,7 @@ var Publisher = (function(){
 
     function add(name){
         if (!(name)) {
-            alert('PLEASE GIVE YOUR PUBLISHER A NAME!')
+            alert('Please give your publisher a name!')
             return
         }
 
@@ -69,7 +69,7 @@ var Publisher = (function(){
     }
     function del(pub){
         if (!(name)) {
-            alert('PLEASE SPECIFY THE PUBLISHER YOU WANT TO DELETE')
+            alert('Please specify the publisher you want to delete!')
             return
         }
         pubs = publishers.map(function(publisher){
@@ -88,7 +88,7 @@ var Publisher = (function(){
     function send(event){
         $elem_curr = $(event.target)
         $pub = $elem_curr.closest('.publisher');
-        name = $pub.find('h4').html();
+        name = $pub.find('h3').html();
         topic = $pub.find('input')[0].value;
         payload = $pub.find('textarea')[0].value;
 
@@ -178,14 +178,10 @@ var Subscriber = (function(){
 
     function add(name){
         if (!(name)) {
-            alert('PLEASE GIVE YOUR SUBSCRIBER A NAME!')
+            alert('Please give your subscriber a name!')
             return
         }
         subs = subscribers.map(function(sub, indx){
-            if (!(sub.name.toLowerCase())) {
-                alert('PLEASE WRITE A NAME!')
-                return
-            }
             return sub.name.toLowerCase()
         });
 
@@ -201,7 +197,7 @@ var Subscriber = (function(){
 
     function del(name){
         if (!(name)) {
-            alert('PLEASE SPECIFY THE SUBSCRIBER YOU WANT TO DELETE')
+            alert('Please specify the subscriber you want to delete')
             return
         }
         subs = subscribers.map(function(sub, indx){

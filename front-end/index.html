@@ -166,6 +166,7 @@
     <body>
         <script>
             var publishers = [];
+            var pub_names =[];
             var element = ('#publist')
 
 
@@ -173,7 +174,9 @@
 
 
             function _render(name){
+                pub_names.push(name);
                 document.getElementById('name1').innerHTML= name;
+                document.getElementById("add_pub").value = "";
                 document.getElementById('topic').style.display = "block";
                 document.getElementById('msg').style.display = "block";
                 document.getElementById('publish').style.display = "block";
@@ -186,9 +189,19 @@
                     topic: topic,
                     message: message
                 })
-                console.log(publishers);
-                document.getElementById('topic1').innerHTML = topic;
-                document.getElementById('message1').innerHTML = message;
+                document.getElementById("topic").value = "";
+                document.getElementById("msg").value = "";
+                var text = ""
+                var x=[]
+                for (i=0;i<publishers.length;i++){
+                    text= "Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br>";
+                    x.push(text);
+                }
+                for (i=0;i<x.length;i++){
+                    text += x[i] + "<br>";
+                }
+                document.getElementById('Info').innerHTML= x;
+
             }
 
 
@@ -241,8 +254,8 @@
                 xhr.setRequestHeader("cache-control", "no-cache");
 
 
-                let name = document.getElementById('name1').value;
-                
+                let name = pub_names.slice().pop();
+
                 let topic = document.getElementById('topic').value;
                 let message = document.getElementById('msg').value;
 
@@ -272,6 +285,42 @@
 
             }
 
+            function addSubscriber(){
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("POST", "http://localhost:8000/subscriber/add", true);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("cache-control", "no-cache");
+
+
+                if (!(document.getElementById('add_sub').value)){
+                    alert('Please give your subscriber a name!')
+                    return
+                }
+
+                let name = document.getElementById('add_sub').value;
+
+
+                let sendObject=JSON.stringify({
+                    'name':name
+                });
+
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            _render(xhr.response.name)
+                            console.log("SERVER RESPONSE " + xhr.response.name)
+                        }
+                    }
+                };
+
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send(sendObject);
+            }
+
 
         </script>
 
@@ -280,18 +329,17 @@
             <center><h1>Publishers</h1></center>
             <center>
                 <div id='addPub' class='textbox-btn'>
-                    <input type='text' class='input' id ="add_pub" placeholder='Add a Publisher'>
+                    <input type='text' class='input' id ="add_pub" placeholder='Add a Publisher' onfocus="this.value=''">
                     <button class='button_example' onclick="addPublisher()">Add</button>
                     </center>
                 <div id='publist'>
                     <div class='publisher'>
                         <center>
                             <h3 id = name1></h3>
-                            <input type='text' class='input1' id = "topic" placeholder='Topic' style=" display: none">
-                            <textarea class='input1' placeholder='Message' id='msg' style=" display: none"></textarea>
+                            <input type='text' class='input1' id = "topic" placeholder='Topic' onfocus="this.value=''" style=" display: none">
+                            <textarea class='input1' placeholder='Message' id='msg' onfocus="this.value=''" style=" display: none"></textarea>
                             <button class='button_example' id ="publish" onclick = "publish_data()" style=" display: none">Publish</button>
-                            <p id = 'topic1'></p>
-                            <p id = 'message1'></p>
+                            <p id ='Info'></p>
 
                             <br><br><br><br><br>
                             </div>
@@ -300,33 +348,32 @@
                         <center><h1>Subscribers</h1></center>
                         <center>
                             <div id='addSub' class='textbox-btn'>
-                                <input type='text' class='input' placeholder='Add a Subscriber'>
-                                <button class='button_example'>Add</button>
+                                <input type='text' class='input' id = 'add_sub' placeholder='Add a Subscriber' >
+                                <button class='button_example' onclick="addSubscriber()">Add</button>
 
                             </div>
                             <div id='subList'>
-                                {{#subscribers}}
                                 <div class='subscriber'>
-                                    <h3>{{name}}</h3>
+                                    <!--                                    <h3>{{name}}</h3>-->
                                     <input type='text' class='input' placeholder='Add Topic'>
                                     <button class='button_example'>Subscribe</button>
-                                    <h2>Following</h2>
-                                    <ul class='topics'>
-                                        {{#topics}}
-                                        <li>
-                                            {{.}}
-                                            {{/topics}}
-                                    </ul>
-                                    <h2>Notifications</h2>
-                                    <ul class='notifications'>
-                                        {{#notifications}}
-                                        <li>
-                                            <b>{{topic}}: </b>{{payload}} - <i>{{name}}</i>
-                                            {{/notifications}}
-                                    </ul>
+                                    <!--                                    <h2>Following</h2>-->
+                                    <!--
+<ul class='topics'>
+{{#topics}}
+<li>
+{{.}}
+{{/topics}}
+</ul>
+<h2>Notifications</h2>
+<ul class='notifications'>
+{{#notifications}}
+<li>
+<b>{{topic}}: </b>{{payload}} - <i>{{name}}</i>
+{{/notifications}}
+</ul>
+-->
                                 </div>
-
-                                {{/subscribers}}
                                 <br style='clear:both' /><br><br><br><br><br>
                             </div>
                         </center><br />

@@ -13,6 +13,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 //Request imports.
 const publisher = require('./requests/publisher.js');
+const subscriber = require('./requests/subscriber.js');
 
 //Setup
 const app = express();
@@ -22,5 +23,7 @@ app.use(cors());
 //Listeners
 app.post('/publisher/add', publisher.add)
 app.post('/publisher/publish', publisher.publish)
+
+app.post('/subscriber/add', subscriber.add)
 
 app.listen(8000, function() {console.log('Running on port 8000.')});

@@ -180,7 +180,9 @@
         <script>
             var publishers = [];
             var pub_names =[];
+            var sub_names=[];
             var subscriber=[];
+
 
 
 
@@ -195,7 +197,13 @@
             }
 
             //Render Subscriber
-            function _render_s(topic){
+            function _render_s(name){
+                sub_names.push(name);
+                document.getElementById('subname').innerHTML= name;
+
+            }
+
+            function _render_topic(topic){
                 //console.log(subscriber);
                 var x=[]
                 var text="";
@@ -323,6 +331,36 @@
                 xhr.send(sendObject);
             }
 
+            function addSubscriber(){
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:8000/subscriber/add", true);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("cache-control", "no-cache");
+                if (!(document.getElementById('add_sub').value)){
+                    alert('Please give your subscriber a name!')
+                    return
+                }
+
+                let name = document.getElementById('add_sub').value;
+                console.log(name)
+                let sendObject=JSON.stringify({
+                    'name':name
+                });
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            _render_s(xhr.response.name)
+                            console.log("SERVER RESPONSE " + xhr.response.name)
+                        }}};
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send(sendObject);
+            }
+
+
 
             //Subscriber to a Topic
             function Subscribe(){
@@ -349,7 +387,7 @@
                 xhr.onload = function (e) {
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
-                            _render_s(xhr.response.topic)
+                            _render_topic(xhr.response.topic)
                             //console.log("SERVER RESPONSE " + xhr.response.topic)
                         }}};
                 xhr.onerror = function (e) {
@@ -409,6 +447,9 @@
                             <div id='subList'>
                                 <div class='Subscriber'>
                                     <center><h1>Subscribers</h1></center>
+                                    <input type='text' class='input' id="add_sub" placeholder='Add a Subscriber'>
+                                    <button class='button_example' onclick="addSubscriber()" >Add</button>
+                                    <p id= subname></p>
                                     <input type='text' id='sub_top' class='input' placeholder='Add Topic'>
                                     <button class='button_example' id =subscribe onclick= "Subscribe()">Subscribe</button><br>
                                     <p id=subtopic></p>

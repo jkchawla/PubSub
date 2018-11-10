@@ -24,6 +24,6 @@ app.use(cors());
 app.post('/publisher/add', publisher.add)
 app.post('/publisher/publish', publisher.publish)
 
-app.post('/subscriber/add', subscriber.add)
+app.post('/subscriber/subscribe', subscriber.subscribe)
 
 app.listen(8000, function() {console.log('Running on port 8000.')});

@@ -25,6 +25,9 @@
                 overflow: hidden;
                 background-color: mediumturquoise;
             }
+            li{
+                text-align: left;
+            }
 
             p {
                 font-family: sans-serif;
@@ -50,6 +53,9 @@
             .textbox-btn input {
                 width: 90%;
                 display: inline;
+            }
+            .sub{
+
             }
 
             .input {
@@ -119,12 +125,19 @@
                 padding: 10px;
                 height: 300px; /* Should be removed. Only for demonstration */
             }
+            .font{
+                font-family: serif;
+                font-size: 1;
+            }
 
             /* Clear floats after the columns */
             .row:after {
                 content: "";
                 display: table;
                 clear: both;
+            }
+            ul.b {
+                list-style-type: square;
             }
 
             .button_example {
@@ -167,159 +180,206 @@
         <script>
             var publishers = [];
             var pub_names =[];
-            var element = ('#publist')
+            var subscriber=[];
 
 
 
-
-
-            function _render(name){
+            //Render Publisher
+            function _render_p(name){
                 pub_names.push(name);
                 document.getElementById('name1').innerHTML= name;
                 document.getElementById("add_pub").value = "";
                 document.getElementById('topic').style.display = "block";
                 document.getElementById('msg').style.display = "block";
                 document.getElementById('publish').style.display = "block";
-
             }
 
+            //Render Subscriber
+            function _render_s(topic){
+                //console.log(subscriber);
+                var x=[]
+                var text="";
+                for (i = 0; i<subscriber.length;i++){
+                    x.push("<li>"+subscriber[i]+"</li>");
+                }
+                //console.log(x);
+
+                for(i = 0; i<x.length;i++){
+                    text += x[i]+"<br>";
+                }
+                document.getElementById("sub_top").value = "";
+                document.getElementById("subtopic").innerHTML = text;
+            }
+            function render_notif(final){
+                var name ="";
+                var data =[];
+                for(var i =0;i<final.length;i++){
+                    name+="<li>"+final[i]["name"];
+                    data =final[i]["data"]
+                    for (var j =0; j<data.length;j++){
+                        name+="<p class = font>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"];
+                        //console.log(data[j])
+                    }
+                    name+="</p></li>"
+                    document.getElementById("subtopic").innerHTML = name;
+                }
+            }
+
+
+
+            //Render publisher Data aka Advertise
             function _render_pub(name,topic,message){
-                publishers.push({
+                var data= {
                     name: name,
                     topic: topic,
                     message: message
-                })
+                }
+                publishers.push(data);
                 document.getElementById("topic").value = "";
                 document.getElementById("msg").value = "";
+                document.getElementById('name1').innerHTML= "";
                 var text = ""
                 var x=[]
                 for (i=0;i<publishers.length;i++){
-                    text= "Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br>";
+                    text= "<li> Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br></li>";
                     x.push(text);
                 }
                 for (i=0;i<x.length;i++){
                     text += x[i] + "<br>";
                 }
                 document.getElementById('Info').innerHTML= x;
+                document.getElementById('topic').style.display = "none";
+                document.getElementById('msg').style.display = "none";
+                document.getElementById('publish').style.display = "none";
+
+                notify(subscriber,publishers);
 
             }
+            function include(arr,obj) {
+                return (arr.indexOf(obj) != -1);
+            }
 
-
+            //Add Publisher
             function addPublisher(){
 
                 const xhr = new XMLHttpRequest();
-
                 xhr.open("POST", "http://localhost:8000/publisher/add", true);
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("cache-control", "no-cache");
-
-
-
                 if (!(document.getElementById('add_pub').value)){
                     alert('Please give your publisher a name!')
                     return
                 }
 
+
+                //console.log(subscriber)
                 let name = document.getElementById('add_pub').value;
-
-
-
-
                 let sendObject=JSON.stringify({
                     'name':name
                 });
-
                 xhr.responseType = 'json';
-
                 xhr.onload = function (e) {
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
-                            _render(xhr.response.name)
-                            console.log("SERVER RESPONSE " + xhr.response.name)
-                        }
-                    }
-                };
-
+                            _render_p(xhr.response.name)
+                            //console.log("SERVER RESPONSE " + xhr.response.name)
+                        }}};
                 xhr.onerror = function (e) {
                     console.error(xhr.statusText);
                 };
                 xhr.send(sendObject);
             }
 
+            //Publish Data AKA Advertise
             function publish_data(){
                 const xhr = new XMLHttpRequest();
-
                 xhr.open("POST", "http://localhost:8000/publisher/publish", true);
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("cache-control", "no-cache");
-
-
                 let name = pub_names.slice().pop();
-
+                if(!(subscriber.includes(document.getElementById('topic').value))){
+                    alert('Nobody is subscribed to this topic!')
+                    document.getElementById('topic').value = "";
+                    document.getElementById('msg').value = "";
+                    return
+                }
                 let topic = document.getElementById('topic').value;
                 let message = document.getElementById('msg').value;
-
-
                 let sendObject=JSON.stringify({
                     'name':name,
                     'topic': topic,
                     'message':message
                 });
-
                 xhr.responseType = 'json';
-
                 xhr.onload = function (e) {
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
                             _render_pub(xhr.response.name,xhr.response.topic, xhr.response.message)
-                            console.log("SERVER RESPONSE " + xhr.response.name)
-
-                        }
-                    }
-                };
-
+                            //console.log("SERVER RESPONSE " + xhr.response.name)
+                        }}};
                 xhr.onerror = function (e) {
                     console.error(xhr.statusText);
                 };
                 xhr.send(sendObject);
-
             }
 
-            function addSubscriber(){
-                const xhr = new XMLHttpRequest();
 
-                xhr.open("POST", "http://localhost:8000/subscriber/add", true);
+            //Subscriber to a Topic
+            function Subscribe(){
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("cache-control", "no-cache");
-
-
-                if (!(document.getElementById('add_sub').value)){
-                    alert('Please give your subscriber a name!')
+                if (!(document.getElementById('sub_top').value)){
+                    alert('Please specify a topic!')
                     return
                 }
 
-                let name = document.getElementById('add_sub').value;
-
-
+                if((subscriber.includes(document.getElementById('sub_top').value))){
+                    alert('Already Subscribed!')
+                    return
+                }
+                let topic = document.getElementById('sub_top').value;
+                subscriber.push(topic);
                 let sendObject=JSON.stringify({
-                    'name':name
+                    'topic':topic
                 });
-
                 xhr.responseType = 'json';
                 xhr.onload = function (e) {
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
-                            _render(xhr.response.name)
-                            console.log("SERVER RESPONSE " + xhr.response.name)
-                        }
-                    }
-                };
-
+                            _render_s(xhr.response.topic)
+                            //console.log("SERVER RESPONSE " + xhr.response.topic)
+                        }}};
                 xhr.onerror = function (e) {
                     console.error(xhr.statusText);
                 };
-                xhr.send(sendObject);
+                xhr.send(sendObject);}
+
+            function getval(sub){
+                var data;
+                var final =[];
+                for(var i =0; i<publishers.length;i++){
+                    if(sub==publishers[i]["topic"]){
+                        final.push(publishers[i]);
+                    }
+                }
+                return final;
             }
+
+
+            function notify(subscribers){
+                var final=[];
+                for(var i =0; i<subscribers.length;i++){
+                    final[i]={name: subscribers[i],
+                              data:getval(subscribers[i])}
+                }
+                render_notif(final);
+
+            }
+
+
 
 
         </script>
@@ -330,51 +390,31 @@
             <center>
                 <div id='addPub' class='textbox-btn'>
                     <input type='text' class='input' id ="add_pub" placeholder='Add a Publisher' onfocus="this.value=''">
-                    <button class='button_example' onclick="addPublisher()">Add</button>
+                    <button class='button_example' id= pub_button onclick="addPublisher()">Add</button>
                     </center>
                 <div id='publist'>
                     <div class='publisher'>
                         <center>
-                            <h3 id = name1></h3>
+                            <p id = name1></p>
                             <input type='text' class='input1' id = "topic" placeholder='Topic' onfocus="this.value=''" style=" display: none">
                             <textarea class='input1' placeholder='Message' id='msg' onfocus="this.value=''" style=" display: none"></textarea>
                             <button class='button_example' id ="publish" onclick = "publish_data()" style=" display: none">Publish</button>
-                            <p id ='Info'></p>
-
+                            <ul id ='Info'></ul>
                             <br><br><br><br><br>
                             </div>
                     </div>
                     <div class="split right">
-                        <center><h1>Subscribers</h1></center>
-                        <center>
-                            <div id='addSub' class='textbox-btn'>
-                                <input type='text' class='input' id = 'add_sub' placeholder='Add a Subscriber' >
-                                <button class='button_example' onclick="addSubscriber()">Add</button>
 
-                            </div>
+                        <center>
                             <div id='subList'>
-                                <div class='subscriber'>
-                                    <!--                                    <h3>{{name}}</h3>-->
-                                    <input type='text' class='input' placeholder='Add Topic'>
-                                    <button class='button_example'>Subscribe</button>
-                                    <!--                                    <h2>Following</h2>-->
-                                    <!--
-<ul class='topics'>
-{{#topics}}
-<li>
-{{.}}
-{{/topics}}
-</ul>
-<h2>Notifications</h2>
-<ul class='notifications'>
-{{#notifications}}
-<li>
-<b>{{topic}}: </b>{{payload}} - <i>{{name}}</i>
-{{/notifications}}
-</ul>
--->
+                                <div class='Subscriber'>
+                                    <center><h1>Subscribers</h1></center>
+                                    <input type='text' id='sub_top' class='input' placeholder='Add Topic'>
+                                    <button class='button_example' id =subscribe onclick= "Subscribe()">Subscribe</button><br>
+                                    <p id=subtopic></p>
+
                                 </div>
-                                <br style='clear:both' /><br><br><br><br><br>
+
                             </div>
                         </center><br />
                         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>

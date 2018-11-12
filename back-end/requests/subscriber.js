@@ -20,8 +20,8 @@ module.exports.subscribe= function(req, res, next) {
     let topic = req.body.topic;
     let allTopics =req.body.allTopics;
     let click = req.body.click;
-    console.log("ALL TOPICS " + JSON.stringify(allTopics))
-    insertTopics(JSON.stringify(allTopics))
+    console.log("ALL TOPICS " + JSON.stringify(allTopics.sub_topics1))
+    insertTopics(allTopics.sub_topics1)
     let output = {
         topic: topic,
         allTopics: allTopics,

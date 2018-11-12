@@ -245,27 +245,27 @@
 
 
 
-            function checkUpdate() {
-                console.log("check update run")
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("GET", "http://localhost:8000/getFinal", true);
-                    xhr.responseType = 'json';
-                    xhr.onload = function (e) {
-                        //                        if (xhr.readyState === xhr.DONE) {
-                        //                            if (xhr.status === 200) {
-                        console.log(xhr.response)
-                        if (xhr.response.info.length != final.length) {
-                            final = xhr.response.info
-                            console.log(final)
-                            render_notif(final)
-                        }
-                        //s                            }}
-                    };
-                    xhr.onerror = function (e) {
-                        console.error(xhr.statusText);
-                    };
-                    xhr.send();  
-                }
+            // function () {
+            //     console.log("check update run")
+            //         // const xhr = new XMLHttpRequest();
+            //         // xhr.open("GET", "http://localhost:8000/getFinal", true);
+            //         // xhr.responseType = 'json';
+            //         // xhr.onload = function (e) {
+            //         //     //                        if (xhr.readyState === xhr.DONE) {
+            //         //     //                            if (xhr.status === 200) {
+            //         //     console.log(xhr.response)
+            //         //     if (xhr.response.info.length != final.length) {
+            //         //         final = xhr.response.info
+            //         //         console.log(final)
+            //         //         render_notif(final)
+            //         //     }
+            //         //     //s                            }}
+            //         // };
+            //         // xhr.onerror = function (e) {
+            //         //     console.error(xhr.statusText);
+            //         // };
+            //         // xhr.send();
+            //     }
 
 
 
@@ -349,7 +349,7 @@
             function include(arr,obj) {
                 return (arr.indexOf(obj) != -1);
             }
-            
+
             function getTopics() {
                 const xhr = new XMLHttpRequest();
                     xhr.open("GET", "http://localhost:8000/getTopics", true);
@@ -357,24 +357,25 @@
                     xhr.onload = function (e) {
                         //                        if (xhr.readyState === xhr.DONE) {
                         //                            if (xhr.status === 200) {
-                        console.log(xhr.response)
-                        differentLength(xhr.response.info)
-                        //s                            }}
+                        console.log("response " + xhr.response)
+                        console.log("response info " +xhr.response.info)
+
+                        var topics = JSON.parse(xhr.response.info)
+                        console.log("response info type " + typeof topics)
+                        console.log("response info topics1 " +typeof topics.sub_topics1)
+                        console.log("response info topics2 " + topics.sub_topics2)
+
+                        if (topics.sub_topics1.length != subscriber1) {
+                            subscriber1 = topics.sub_topics1
+                          }
                     };
                     xhr.onerror = function (e) {
                         console.error(xhr.statusText);
                     };
-                    xhr.send();  
+                    xhr.send();
             }
-            
-            function differentLength(data) {
-                if (data.allTopics.sub_topics1.length != subscriber1) {
-                    subscriber1 = data.allTopics.sub_topics1;
-                    return true
-                } else {
-                    return false
-                }
-            }
+
+
 
             //Add Publisher
             function addPublisher(){
@@ -613,10 +614,31 @@
                 xhr.send(sendObject);
 
             }
-            
-    
-            
-//            setInterval(checkUpdate(), 1000)
+
+
+
+           setInterval(
+             function () {
+               console.log("check update run")
+                   const xhr = new XMLHttpRequest();
+                   xhr.open("GET", "http://localhost:8000/getFinal", true);
+                   xhr.responseType = 'json';
+                   xhr.onload = function (e) {
+                       //                        if (xhr.readyState === xhr.DONE) {
+                       //                            if (xhr.status === 200) {
+                       console.log(xhr.response)
+                       if (xhr.response.info.length != final.length) {
+                           final = xhr.response.info
+                           console.log(final)
+                           render_notif(final)
+                       }
+                       //s                            }}
+                   };
+                   xhr.onerror = function (e) {
+                       console.error(xhr.statusText);
+                   };
+                   xhr.send();
+               }, 15000)
 
         </script>
 

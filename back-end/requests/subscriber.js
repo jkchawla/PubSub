@@ -1,20 +1,32 @@
+const MongoClient = require('mongodb').MongoClient;
 
-module.exports.add = function(req, res, next){
-    let name = req.body.name;
-    console.log(name);
-    let output = {
-        name: name
-    }
-    res.json(output)
+const url = "mongodb://localhost:27017/";
+
+function insertTopics(topics) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("PubSub");
+    console.log("TOPICS DB " + topics)
+    var myobj = { identifier: "topics", info: topics };
+    dbo.collection("A").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 Topic inserted");
+      db.close();
+    });
+  });
 }
 
 module.exports.subscribe= function(req, res, next) {
     let topic = req.body.topic;
-    console.log(topic);
+    let allTopics =req.body.allTopics;
+    let click = req.body.click;
+    console.log("ALL TOPICS " + JSON.stringify(allTopics))
+    insertTopics(JSON.stringify(allTopics))
     let output = {
-        topic: topic
-    }
+        topic: topic,
+        allTopics: allTopics,
+        click : click
+    };
+    console.log("OUTPUT JSON " + output)
     res.json(output)
 }
-
-

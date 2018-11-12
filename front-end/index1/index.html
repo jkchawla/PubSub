@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Buffalo</title>
+        <style>
+            html, body {
+                border: 0;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+            }
+
+            .header {
+                font-family: sans-serif;
+                font-size: 50px;
+                color: White;
+                list-style-type: none;
+                margin: 0;
+                padding: 15px;
+                text-align: center;
+                opacity: 0.8;
+                overflow: hidden;
+                background-color: mediumturquoise;
+            }
+            li{
+                text-align: left;
+            }
+
+            p {
+                font-family: sans-serif;
+                font-size: 20px;
+            }
+
+            h1 {
+                font-family: sans-serif;
+                font-size: 30px;
+            }
+
+            h2 {
+                font-family: sans-serif;
+                font-size: 20px;
+            }
+
+            .textbox-btn {
+                width: 600px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .textbox-btn input {
+                width: 90%;
+                display: inline;
+            }
+            .sub{
+
+            }
+
+            .input {
+                font-family: sans-serif;
+                font-size: 20px;
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 3px solid #ccc;
+                -webkit-transition: 0.5s;
+                transition: 0.5s;
+                outline: none;
+            }
+
+            .input {
+                border: 3px solid #555;
+            }
+            .input1 {
+                font-family: sans-serif;
+                font-size: 20px;
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 3px solid #ccc;
+                -webkit-transition: 0.5s;
+                transition: 0.5s;
+                outline: none;
+                border: 3px solid #555;
+            }
+
+            .split {
+                height: 100%;
+                width: 50%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                overflow-x: hidden;
+                padding-top: 20px;
+            }
+
+            .left {
+                left: 0;
+                top: 11%;
+                background-color: aliceblue;
+            }
+
+
+            .right {
+                right: 0;
+                top: 11%;
+                background-color: antiquewhite;
+            }
+
+            .centered {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            .column {
+                float: left;
+                width: 50%;
+                padding: 10px;
+                height: 300px; /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            li {
+                font-size: 20px;
+            }
+            ul.b{
+                list-style-type: square;
+            }
+
+            .button_example {
+                border: 1px solid #17BD59;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                font-size: 20px;
+                font-family: helvetica, sans-serif;
+                padding: 10px 10px 10px 10px;
+                text-decoration: none;
+                display: inline-block;
+                text-shadow: 0px 0px 0 rgba(0,0,0,0.3);
+                font-weight: bold;
+                color: #FFFFFF;
+                background-color: #1AE8E1;
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#1AE8E1), to(#10E0D9));
+                background-image: -webkit-linear-gradient(top, #1AE8E1, #10E0D9);
+                background-image: -moz-linear-gradient(top, #1AE8E1, #10E0D9);
+                background-image: -ms-linear-gradient(top, #1AE8E1, #10E0D9);
+                background-image: -o-linear-gradient(top, #1AE8E1, #10E0D9);
+                background-image: linear-gradient(to bottom, #1AE8E1, #10E0D9);
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#1AE8E1, endColorstr=#10E0D9);
+            }
+
+            .button_example:hover {
+                border: 1px solid #44ADC6;
+                background-color: #11D2BF;
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#11D2BF), to(#0db0ab));
+                background-image: -webkit-linear-gradient(top, #11D2BF, #0db0ab);
+                background-image: -moz-linear-gradient(top, #11D2BF, #0db0ab);
+                background-image: -ms-linear-gradient(top, #11D2BF, #0db0ab);
+                background-image: -o-linear-gradient(top, #11D2BF, #0db0ab);
+                background-image: linear-gradient(to bottom, #11D2BF, #0db0ab);
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#11D2BF, endColorstr=#0db0ab);
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            var publishers = [];
+            var pub_names =[];
+            var final=[];
+            var subscriber1=[];
+            var subscriber2=[];
+            var subscriber3=[];
+
+
+
+            //Render Publisher
+            function _render_p(name){
+                pub_names.push(name);
+                document.getElementById('name1').innerHTML= name;
+                document.getElementById('topic').style.display = "block";
+                document.getElementById('msg').style.display = "block";
+                document.getElementById('publish').style.display = "block";
+            }
+
+            //Render Subscriber
+            function _render_s(topic,topics,click_id){
+                //console.log(subscriber);
+                var x=[]
+                var text="";
+                if(click_id=='subscriber1'){
+                    for (i = 0; i<subscriber1.length;i++){
+                        x.push("<li>"+subscriber1[i]+"</li>");
+                    }
+                    //console.log(x);
+
+                    for(i = 0; i<x.length;i++){
+                        text += x[i]+"<br>";
+                    }
+                    document.getElementById("sub_top1").innerHTML = "";
+                    document.getElementById("subtopic1").innerHTML = text;
+                }
+                else if(click_id=='subscriber2'){
+                    for (i = 0; i<subscriber2.length;i++){
+                        x.push("<li>"+subscriber2[i]+"</li>");
+                    }
+                    //console.log(x);
+
+                    for(i = 0; i<x.length;i++){
+                        text += x[i]+"<br>";
+                    }
+                    document.getElementById("sub_top2").value = "";
+                    document.getElementById("subtopic2").innerHTML = text;
+                }
+
+                else  if(click_id=='subscriber3'){
+                    for (i = 0; i<subscriber3.length;i++){
+                        x.push("<li>"+subscriber3[i]+"</li>");
+                    }
+                    //console.log(x);
+
+                    for(i = 0; i<x.length;i++){
+                        text += x[i]+"<br>";
+                    }
+
+                    document.getElementById("sub_top3").value = "";
+                    document.getElementById("subtopic3").innerHTML = text;
+                }
+
+
+
+            }
+
+
+
+            function checkUpdate() {
+                console.log("check update run")
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8000/getFinal", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        console.log(xhr.response)
+                        if (xhr.response.info.length != final.length) {
+                            final = xhr.response.info
+                            console.log(final)
+                            render_notif(final)
+                        }
+                        //s                            }}
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();  
+                }
+
+
+
+            function render_notif(final){
+                //console.log(final);
+                var finalmsg1 ="";
+                var finalmsg2 ="";
+                var finalmsg3 ="";
+
+                var data =[];
+
+                for(var i =0;i<final.length;i++){
+
+                    if(final[i]["name"]=="Subscriber1"){
+
+                        finalmsg1+="<li>"+final[i]["topic"];
+                        data =final[i]["data"]
+                        for (var j =0; j<data.length;j++){
+
+                            finalmsg1+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                            //console.log(finalmsg)
+                        }
+                        finalmsg1+="</li>"
+                        //document.getElementById("subtopic1").innerHTML = "";
+                        document.getElementById("subtopic1").innerHTML = finalmsg1;
+
+                    }
+                    else if(final[i]["name"]=="Subscriber2"){
+                        finalmsg2+="<li>"+final[i]["topic"];
+                        data =final[i]["data"]
+                        for (var j =0; j<data.length;j++){
+                            finalmsg2+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                            //console.log(finalmsg)
+                        }
+                        finalmsg2+="</li>"
+                        document.getElementById("subtopic2").innerHTML = finalmsg2;
+                    }
+                    else if(final[i]["name"]=="Subscriber3"){
+                        finalmsg3+="<li>"+final[i]["topic"];
+                        data =final[i]["data"]
+                        for (var j =0; j<data.length;j++){
+                            finalmsg3+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                            //console.log(finalmsg)
+                        }
+                        finalmsg3+="</li>"
+                        document.getElementById("subtopic3").innerHTML = finalmsg3;
+                    }
+
+                    name+="</li>"
+
+                }
+            }
+
+
+            //Render publisher Data aka Advertise
+            function _render_pub(name,topic,message){
+                var data= {
+                    name: name,
+                    topic: topic,
+                    message: message
+                }
+                publishers.push(data);
+                document.getElementById("topic").value = "";
+                document.getElementById("msg").value = "";
+                document.getElementById('name1').innerHTML= "";
+                var text = ""
+                var x=[]
+                for (i=0;i<publishers.length;i++){
+                    text= "<li> Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br></li>";
+                    x.push(text);
+                }
+                for (i=0;i<x.length;i++){
+                    text += x[i] + "<br>";
+                }
+                document.getElementById('Info').innerHTML= x;
+
+                getTopics();
+                notify(subscriber1,subscriber2,subscriber3);
+
+            }
+            function include(arr,obj) {
+                return (arr.indexOf(obj) != -1);
+            }
+            
+            function getTopics() {
+                const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8000/getTopics", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        console.log(xhr.response)
+                        differentLength(xhr.response.info)
+                        //s                            }}
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();  
+            }
+            
+            function differentLength(data) {
+                if (data.allTopics.sub_topics1.length != subscriber1) {
+                    subscriber1 = data.allTopics.sub_topics1;
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            //Add Publisher
+            function addPublisher(){
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:8000/publisher/add", true);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("cache-control", "no-cache");
+                if (!(document.getElementById('add_pub').value)){
+                    alert('Please give your publisher a name!')
+                    return
+                }
+
+
+                //console.log(subscriber)
+                let name = document.getElementById('add_pub').value;
+                let sendObject=JSON.stringify({
+                    'name':name
+                });
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            _render_p(xhr.response.name)
+                            //console.log("SERVER RESPONSE " + xhr.response.name)
+                        }}};
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send(sendObject);
+            }
+
+            //Publish Data AKA Advertise
+            function publish_data(){
+
+                let name = pub_names.slice().pop();
+                if(!(subscriber1.includes(document.getElementById('topic').value))&&!(subscriber2.includes(document.getElementById('topic').value))&&!(subscriber3.includes(document.getElementById('topic').value))){
+                    alert('Nobody is subscribed to this topic!')
+                    document.getElementById('topic').value = "";
+                    document.getElementById('msg').value = "";
+                    return
+                }
+
+                let topic = document.getElementById('topic').value;
+                let message = document.getElementById('msg').value;
+                _render_pub(name,topic,message)
+
+
+
+
+            }
+
+
+            //Subscriber to a Topic
+            function Subscribe(click_id){
+                if(click_id=="subscriber1"){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+                    if (!(document.getElementById('sub_top1').value)){
+                        alert('Please specify a topic!')
+                        return
+                    }
+
+                    if((subscriber1.includes(document.getElementById('sub_top1').value))){
+                        alert('Already Subscribed!')
+                        document.getElementById("sub_top1").value = "";
+                        return
+                    }
+                    let topic = document.getElementById('sub_top1').value;
+                    let click = click_id;
+                    subscriber1.push(topic);
+                    let Topics = {
+                        'sub_topics1': subscriber1,
+                        'sub_topics2': subscriber2,
+                        'sub_topics3': subscriber3
+                    }
+                    let sendObject=JSON.stringify({
+                        'topic' :topic,
+                        'allTopics' : Topics,
+                        'click': click
+
+                    });
+                    console.log(sendObject)
+
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                _render_s(xhr.response.topic,xhr.response.sub_topics1, xhr.response.click)
+                                // console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
+                            }}};
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(sendObject);
+                }
+                else if( click_id =='subscriber2'){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+                    if (!(document.getElementById('sub_top2').value)){
+                        alert('Please specify a topic!')
+                        return
+                    }
+
+                    if((subscriber2.includes(document.getElementById('sub_top2').value))){
+                        alert('Already Subscribed!')
+
+                        return
+                    }
+
+                    let topic = document.getElementById('sub_top2').value;
+                    let click = click_id;
+                    subscriber2.push(topic);
+                    let sendObject=JSON.stringify({
+                        'topic' :topic,
+                        'sub_topics1': subscriber1,
+                        'sub_topics2': subscriber2,
+                        'sub_topics3': subscriber3,
+                        'click': click
+
+                    });
+                    console.log(sendObject)
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                _render_s(xhr.response.topic,xhr.response.sub_topic2, xhr.response.click)
+                                //console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
+                            }}};
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(sendObject);
+                }
+                else if(click_id=="subscriber3"){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+                    if (!(document.getElementById('sub_top3').value)){
+                        alert('Please specify a topic!')
+                        return
+                    }
+
+                    if((subscriber3.includes(document.getElementById('sub_top3').value))){
+                        alert('Already Subscribed!')
+                        document.getElementById("sub_top3").value = "";
+                        return
+                    }
+
+                    let topic = document.getElementById('sub_top3').value;
+                    let click = click_id;
+                    subscriber3.push(topic);
+                    let Topics = {
+                        'sub_topics1': subscriber1,
+                        'sub_topics2': subscriber2,
+                        'sub_topics3': subscriber3
+                    }
+                    let sendObject=JSON.stringify({
+                        'topic' :topic,
+                        'allTopics' : Topics,
+                        'click': click
+
+                    });
+                    console.log(sendObject)
+
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                _render_s(xhr.response.topic,xhr.response.allTopics.sub_topics3, xhr.response.click)
+                                // console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
+                                //                                console.log("Server Response " + xhr.response.click)
+                            }}};
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(sendObject);
+
+
+                }
+            }
+
+            function getval(sub){
+                var data;
+                var final =[];
+                for(var i =0; i<publishers.length;i++){
+                    if(sub==publishers[i]["topic"]){
+                        final.push(publishers[i]);
+                    }
+                }
+                return final;
+            }
+
+
+            function notify(sub1,sub2,sub3){
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:8000/publisher/publish", true);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("cache-control", "no-cache");
+
+                for(var i =0; i<sub1.length;i++){
+                    final.push({name: "Subscriber1",
+                                topic: sub1[i],
+                                data:getval(sub1[i])});
+                }
+                for(var i =0; i<sub2.length;i++){
+                    final.push({name: "Subscriber2",
+                                topic: sub2[i],
+                                data:getval(sub2[i])});
+                }
+                for(var i =0; i<sub3.length;i++){
+                    final.push({name: "Subscriber3",
+                                topic: sub3[i],
+                                data:getval(sub3[i])});
+                }
+
+                let sendObject=JSON.stringify(final);
+                console.log(sendObject)
+
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            render_notif(xhr.response)
+                            final=[];
+                            //console.log("SERVER RESPONSE ")
+                        }}};
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send(sendObject);
+
+            }
+            
+    
+            
+//            setInterval(checkUpdate(), 1000)
+
+        </script>
+
+        <div class="header">Buffalo Node</div>
+        <div class="split left">
+            <center><h1>Buffalo Publisher</h1></center>
+            <center>
+                <div id='addPub' class='textbox-btn'>
+                    <input type='text' class='input' id ="add_pub" placeholder='Add a Publisher/Change Publisher' onfocus="this.value=''">
+                    <button class='button_example' id= pub_button onclick="addPublisher()">Add</button>
+                    </center>
+                <div id='publist'>
+                    <div class='publisher'>
+                        <center>
+                            <p id = name1></p>
+                            <input type='text' class='input1' id = "topic" placeholder='Topic' onfocus="this.value=''" style=" display: none">
+                            <textarea class='input1' placeholder='Message' id='msg' onfocus="this.value=''" style=" display: none"></textarea>
+                            <button class='button_example' id ="publish" onclick = "publish_data()" style=" display: none">Publish</button>
+                            <ul id ='Info'></ul>
+                            <br><br><br><br><br>
+                            </div>
+                    </div>
+                    <div class="split right">
+
+                        <center>
+                            <div id='subList'>
+                                <div class='Subscriber 1'>
+                                    <center><h1>Buffalo Subscriber</h1></center>
+                                    <input type='text' id='sub_top1' class='input' placeholder='Add Topic'>
+                                    <button class='button_example' id =subscriber1 onclick= "Subscribe(this.id)">Subscribe</button><br>
+                                    <p id=subtopic1></p>
+                                </div>
+
+                                <!--
+
+<div class='Subscriber 2'>
+<center><h1>Subscriber 2</h1></center>
+<input type='text' id='sub_top2' class='input' placeholder='Add Topic'>
+<button class='button_example' id =subscriber2 onclick= "Subscribe(this.id)">Subscribe</button><br>
+<p id=subtopic2></p>
+</div>
+
+<div class='Subscriber 3'>
+<center><h1>Subscriber 3</h1></center>
+<input type='text' id='sub_top3' class='input' placeholder='Add Topic'>
+<button class='button_example' id =subscriber3 onclick= "Subscribe(this.id)">Subscribe</button><br>
+<p id=subtopic3></p>
+<br><br><br><br><br><br><br><br>
+</div>
+
+
+</div>
+-->
+                                </center><br />
+                            <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+                            <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.js'></script>
+                            <!--                        <script src='../back-end/pubsub.js'></script>-->
+                            <!--                        <script src='../back-end/execution.js'></script>-->
+                            </div>
+                    </div>
+                    </center>
+                </div>
+            </body>
+
+        </html>

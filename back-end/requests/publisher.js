@@ -1,11 +1,20 @@
-//module.exports.post = function(req, res, next) {
-//    const begin = req.body.start;
-//    const end = req.body.end;
-//    //Queries database and send result if found, query API if null and add the result to database
-//
-//    res.json(output)
-//
-//}
+const MongoClient = require('mongodb').MongoClient;
+
+const url = "mongodb://localhost:27017/";
+
+function insertFinal(final) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("PubSub");
+    var myobj = { identifier: "final", info: final };
+    dbo.collection("A").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 Final inserted");
+      db.close();
+    });
+  });
+}
+
 
 module.exports.add = function(req, res, next){
     let name = req.body.name;
@@ -17,20 +26,8 @@ module.exports.add = function(req, res, next){
 }
 
 
-
 module.exports.publish= function(req, res, next){
-    let name = req.body.name;
-    let topic = req.body.topic;
-    let message = req.body.message;
-    
-    console.log(name);
-    console.log(topic);
-    console.log(message);
-    let output = {
-        name: name,
-        topic: topic,
-        message: message
-    }
-    res.json(output)
+    let final = req.body
+    insertFinal(final)
+    res.json(final)
 }
-

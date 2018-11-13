@@ -200,9 +200,9 @@
                 //console.log(subscriber);
                 var x=[]
                 var text="";
-                if(click_id=='subscriber2'){
-                    for (i = 0; i<subscriber2.length;i++){
-                        x.push("<li>"+subscriber2[i]+"</li>");
+                if(click_id=='subscriber1'){
+                    for (i = 0; i<subscriber1.length;i++){
+                        x.push("<li>"+subscriber1[i]+"</li>");
                     }
                     //console.log(x);
 
@@ -266,29 +266,29 @@
                         document.getElementById("subtopic1").innerHTML = finalmsg1;
 
                     }
-                    //                    else if(final[i]["name"]=="Subscriber2"){
-                    //                        finalmsg2+="<li>"+final[i]["topic"];
-                    //                        data =final[i]["data"]
-                    //                        for (var j =0; j<data.length;j++){
-                    //                            finalmsg2+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
-                    //                            //console.log(finalmsg)
-                    //                        }
-                    //                        finalmsg2+="</li>"
-                    //                        document.getElementById("subtopic2").innerHTML = finalmsg2;
-                    //                    }
-                    //                    else if(final[i]["name"]=="Subscriber3"){
-                    //                        finalmsg3+="<li>"+final[i]["topic"];
-                    //                        data =final[i]["data"]
-                    //                        for (var j =0; j<data.length;j++){
-                    //                            finalmsg3+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
-                    //                            //console.log(finalmsg)
-                    //                        }
-                    //                        finalmsg3+="</li>"
-                    //                        document.getElementById("subtopic3").innerHTML = finalmsg3;
-                    //                    }
+                    else if(final[i]["name"]=="Subscriber2"){
+                        finalmsg2+="<li>"+final[i]["topic"];
+                        data =final[i]["data"]
+                        for (var j =0; j<data.length;j++){
+                            finalmsg2+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                            //console.log(finalmsg)
+                        }
+                        finalmsg2+="</li>"
+                        document.getElementById("subtopic2").innerHTML = finalmsg2;
+                    }
+                    else if(final[i]["name"]=="Subscriber3"){
+                        finalmsg3+="<li>"+final[i]["topic"];
+                        data =final[i]["data"]
+                        for (var j =0; j<data.length;j++){
+                            finalmsg3+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                            //console.log(finalmsg)
+                        }
+                        finalmsg3+="</li>"
+                        document.getElementById("subtopic3").innerHTML = finalmsg3;
+                    }
 
-                    //                    name+="</li>"
-                    //                    document.getElementById("subtopic").innerHTML = name;
+                    name+="</li>"
+                    document.getElementById("subtopic").innerHTML = name;
                 }
             }
 
@@ -320,6 +320,28 @@
             }
             function include(arr,obj) {
                 return (arr.indexOf(obj) != -1);
+            }
+            function getTopics() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "http://localhost:8001/getTopics", true);
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    //                        if (xhr.readyState === xhr.DONE) {
+                    //                            if (xhr.status === 200) {
+                    console.log("response " + xhr.response)
+                    console.log("response info " +xhr.response.info)
+                    var topics = xhr.response.info
+                    console.log("response info type " + typeof topics)
+                    console.log("response info topics " + topics)
+                    // console.log("response info topics2 " + topics.sub_topics2)
+                    if (topics.length != subscriber2) {
+                        subscriber2= topics
+                    }
+                };
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send();
             }
 
             //Add Publisher
@@ -376,7 +398,7 @@
 
             //Subscriber to a Topic
             function Subscribe(click_id){
-                if(click_id=="subscriber2"){
+                if(click_id=="subscriber1"){
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
                     xhr.setRequestHeader("content-type", "application/json");
@@ -415,91 +437,93 @@
                     };
                     xhr.send(sendObject);
                 }
-                //                else if( click_id =='subscriber2'){
-                //                    const xhr = new XMLHttpRequest();
-                //                    xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
-                //                    xhr.setRequestHeader("content-type", "application/json");
-                //                    xhr.setRequestHeader("cache-control", "no-cache");
-                //                    if (!(document.getElementById('sub_top2').value)){
-                //                        alert('Please specify a topic!')
-                //                        return
-                //                    }
-                //
-                //                    if((subscriber2.includes(document.getElementById('sub_top2').value))){
-                //                        alert('Already Subscribed!')
-                //
-                //                        return
-                //                    }
-                //                    let topic = document.getElementById('sub_top2').value;
-                //                    subscriber2.push(topic);
-                //                    let sendObject=JSON.stringify({
-                //                        'topic' :topic,
-                //                        'topics': subscriber2,
-                //                        'click': click
-                //
-                //                    });
-                //                    xhr.responseType = 'json';
-                //                    xhr.onload = function (e) {
-                //                        if (xhr.readyState === xhr.DONE) {
-                //                            if (xhr.status === 200) {
-                //                                // _render_s(xhr.response.topic,click_id)
-                //                                //console.log("SERVER RESPONSE " + xhr.response.topic)
-                //                            }}};
-                //                    xhr.onerror = function (e) {
-                //                        console.error(xhr.statusText);
-                //                    };
-                //                    xhr.send(sendObject);
-                //                }
-                //                else if(click_id == 'subscriber3'){
-                //                    const xhr = new XMLHttpRequest();
-                //                    xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
-                //                    xhr.setRequestHeader("content-type", "application/json");
-                //                    xhr.setRequestHeader("cache-control", "no-cache");
-                //                    if (!(document.getElementById('sub_top3').value)){
-                //                        alert('Please specify a topic!')
-                //                        return
-                //                    }
-                //
-                //                    if((subscriber3.includes(document.getElementById('sub_top3').value))){
-                //                        alert('Already Subscribed!')
-                //                        document.getElementById("sub_top2").value = "";
-                //                        return
-                //                    }
-                //                    let topic = document.getElementById('sub_top3').value;
-                //                    subscriber3.push(topic);
-                //                    let sendObject=JSON.stringify({
-                //                        'topic' :topic,
-                //                        'topics': subscriber3,
-                //                        'click': click
-                //
-                //                    });
-                //                    xhr.responseType = 'json';
-                //                    xhr.onload = function (e) {
-                //                        if (xhr.readyState === xhr.DONE) {
-                //                            if (xhr.status === 200) {
-                //                                // _render_s(xhr.response.topic,xhr.response.click, xhr.response.topics)
-                //                                //console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
-                //                                //                                console.log(xhr.response.click)
-                //                            }}};
-                //                    xhr.onerror = function (e) {
-                //                        console.error(xhr.statusText);
-                //                    };
-                //                    xhr.send(sendObject);
-                //                }
+                else if( click_id =='subscriber2'){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+                    if (!(document.getElementById('sub_top2').value)){
+                        alert('Please specify a topic!')
+                        return
+                    }
+
+                    if((subscriber2.includes(document.getElementById('sub_top2').value))){
+                        alert('Already Subscribed!')
+
+                        return
+                    }
+                    let topic = document.getElementById('sub_top2').value;
+                    let click = click_id;
+                    subscriber2.push(topic);
+                    let sendObject=JSON.stringify({
+                        'topic' :topic,
+                        'topics': subscriber2,
+                        'click': click
+
+                    });
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                // _render_s(xhr.response.topic,click_id)
+                                //console.log("SERVER RESPONSE " + xhr.response.topic)
+                            }}};
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(sendObject);
+                }
+                else if(click_id == 'subscriber3'){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+                    if (!(document.getElementById('sub_top3').value)){
+                        alert('Please specify a topic!')
+                        return
+                    }
+
+                    if((subscriber3.includes(document.getElementById('sub_top3').value))){
+                        alert('Already Subscribed!')
+                        document.getElementById("sub_top2").value = "";
+                        return
+                    }
+                    let topic = document.getElementById('sub_top3').value;
+                    let click = click_id;
+                    subscriber3.push(topic);
+                    let sendObject=JSON.stringify({
+                        'topic' :topic,
+                        'topics': subscriber3,
+                        'click': click
+
+                    });
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                // _render_s(xhr.response.topic,xhr.response.click, xhr.response.topics)
+                                //console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
+                                //                                console.log(xhr.response.click)
+                            }}};
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(sendObject);
+                }
 
 
             }
 
             function getval(sub){
-                var data;
-                var final =[];
+                var data=[];
+                //var final =[];
                 for(var i =0; i<publishers.length;i++){
                     if(sub==publishers[i]["topic"]){
-                        final.push(publishers[i]);
+                        data.push(publishers[i]);
                     }
                 }
-                return final;
-            
+                return data;
+
             }
 
 
@@ -509,6 +533,7 @@
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("cache-control", "no-cache");
 
+                let final =[];
                 for(var i =0; i<sub1.length;i++){
                     final.push({name: "Subscriber1",
                                 topic: sub1[i],
@@ -542,6 +567,35 @@
                 xhr.send(sendObject);
 
             }
+            setInterval(
+                function () {
+                    getTopics()
+                    console.log("check update run")
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8001/getFinal", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        // if (xhr.response == null) {} else {
+                        // var obj = JSON.parse(xhr.response)
+                        console.log("OBJECT " + xhr.response)
+                        console.log("OBJECT TYPE" + typeof xhr.response)
+                        console.log("INFO " + JSON.stringify(xhr.response.info))
+                        console.log("TYPE OF INFO " + typeof xhr.response.info)
+                        if (xhr.response.info.length !== final.length) {
+                            final = xhr.response.info;
+                            console.log("FINAL CHANGE " + final)
+                            render_notif(final)
+                        }
+                        //s                            }}
+                        // }
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();
+                }, 5000)
 
 
         </script>
@@ -569,11 +623,11 @@
 
                         <center>
                             <div id='subList'>
-                                <div class='Subscriber 1'>
+                                <div class='Subscriber 2'>
                                     <center><h1>New York Subscriber</h1></center>
-                                    <input type='text' id='sub_top1' class='input' placeholder='Add Topic'>
+                                    <input type='text' id='sub_top2' class='input' placeholder='Add Topic'>
                                     <button class='button_example' id =subscriber2 onclick= "Subscribe(this.id)">Subscribe</button><br>
-                                    <p id=subtopic1></p><br><br><br><br><br><br><br><br>
+                                    <p id=subtopic2></p><br><br><br><br><br><br><br><br>
                                 </div>
 
                                 <!--

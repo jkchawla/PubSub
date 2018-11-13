@@ -360,13 +360,13 @@
                         console.log("response " + xhr.response)
                         console.log("response info " +xhr.response.info)
 
-                        var topics = JSON.parse(xhr.response.info)
+                        var topics = xhr.response.info
                         console.log("response info type " + typeof topics)
-                        console.log("response info topics1 " +typeof topics.sub_topics1)
-                        console.log("response info topics2 " + topics.sub_topics2)
+                        console.log("response info topics " + topics)
+                        // console.log("response info topics2 " + topics.sub_topics2)
 
-                        if (topics.sub_topics1.length != subscriber1) {
-                            subscriber1 = topics.sub_topics1
+                        if (topics.length != subscriber1) {
+                            subscriber1 = topics
                           }
                     };
                     xhr.onerror = function (e) {
@@ -564,14 +564,15 @@
             }
 
             function getval(sub){
-                var data;
-                var final =[];
+                var data =[];
+                console.log('publishers');
+                console.log(publishers);
                 for(var i =0; i<publishers.length;i++){
                     if(sub==publishers[i]["topic"]){
-                        final.push(publishers[i]);
+                        data.push(publishers[i]);
                     }
                 }
-                return final;
+                return data;
             }
 
 
@@ -581,6 +582,7 @@
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("cache-control", "no-cache");
 
+                let final = [];
                 for(var i =0; i<sub1.length;i++){
                     final.push({name: "Subscriber1",
                                 topic: sub1[i],
@@ -605,7 +607,7 @@
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
                             render_notif(xhr.response)
-                            final=[];
+                            //final=[];
                             //console.log("SERVER RESPONSE ")
                         }}};
                 xhr.onerror = function (e) {
@@ -619,6 +621,7 @@
 
            setInterval(
              function () {
+               getTopics()
                console.log("check update run")
                    const xhr = new XMLHttpRequest();
                    xhr.open("GET", "http://localhost:8000/getFinal", true);
@@ -626,19 +629,25 @@
                    xhr.onload = function (e) {
                        //                        if (xhr.readyState === xhr.DONE) {
                        //                            if (xhr.status === 200) {
-                       console.log(xhr.response)
-                       if (xhr.response.info.length != final.length) {
-                           final = xhr.response.info
-                           console.log(final)
+                       // if (xhr.response == null) {} else {
+                       // var obj = JSON.parse(xhr.response)
+                       console.log("OBJECT " + xhr.response)
+                       console.log("OBJECT TYPE" + typeof xhr.response)
+                       console.log("INFO " + JSON.stringify(xhr.response.info))
+                       console.log("TYPE OF INFO " + typeof xhr.response.info)
+                       if (xhr.response.info.length !== final.length) {
+                           final = xhr.response.info;
+                           console.log("FINAL CHANGE " + final)
                            render_notif(final)
                        }
                        //s                            }}
-                   };
+                   // }
+                 };
                    xhr.onerror = function (e) {
                        console.error(xhr.statusText);
                    };
                    xhr.send();
-               }, 15000)
+               }, 5000)
 
         </script>
 
@@ -701,6 +710,21 @@
                     </div>
                     </center>
                 </div>
+                <script>
+                // const xhr = new XMLHttpRequest();
+                // xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
+                // xhr.setRequestHeader("content-type", "application/json");
+                // xhr.setRequestHeader("cache-control", "no-cache");
+                // xhr.responseType = 'json';
+                // xhr.onload = function (e) {
+                //     if (xhr.readyState === xhr.DONE) {
+                //
+                //     }
+                // xhr.onerror = function (e) {
+                //     console.error(xhr.statusText);
+                // };
+                // xhr.send(sendObject);
+                </script>
             </body>
 
         </html>

@@ -30,15 +30,34 @@ const db = require('./requests/db.js');
 
 //Setup
 const app = express();
+const app1 = express();
+const app2 = express();
 app.use(bodyParser.json());
 app.use(cors());
+app1.use(bodyParser.json());
+app1.use(cors());
+app2.use(bodyParser.json());
+app2.use(cors());
 
 //Listeners
-app.post('/publisher/add', publisher.add)
-app.post('/publisher/publish', publisher.publish)
-app.get('/getFinal', db.getFinal)
-app.get('/getTopics', db.getTopics)
+app.post('/publisher/add', publisher.add);
+app.post('/publisher/publish', publisher.publish);
+app.get('/getFinal', db.getFinal);
+app.get('/getTopics', db.getTopics);
+app1.post('/publisher/add', publisher.add);
+app1.post('/publisher/publish', publisher.publish);
+app1.get('/getFinal', db.getFinal);
+app1.get('/getTopics', db.getTopics);
+app2.post('/publisher/add', publisher.add);
+app2.post('/publisher/publish', publisher.publish);
+app2.get('/getFinal', db.getFinal);
+app2.get('/getTopics', db.getTopics);
 
-app.post('/subscriber/subscribe', subscriber.subscribe)
+app.post('/subscriber/subscribe', subscriber.subscribe);
+app1.post('/subscriber/subscribe', subscriber.subscribe);
+app2.post('/subscriber/subscribe', subscriber.subscribe);
+
 
 app.listen(8000, function() {console.log('Running on port 8000.')});
+app1.listen(8001, function() {console.log('Running on port 8001.')});
+app2.listen(8002, function() {console.log('Running on port 8002.')});

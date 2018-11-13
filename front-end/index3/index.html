@@ -225,7 +225,7 @@
                     document.getElementById("subtopic2").innerHTML = text;
                 }
 
-                else if(click_id=='subscriber3'){
+                else if(click_id=='subscriber1'){
                     for (i = 0; i<subscriber3.length;i++){
                         x.push("<li>"+subscriber3[i]+"</li>");
                     }
@@ -324,7 +324,7 @@
             }
             function getTopics() {
                 const xhr = new XMLHttpRequest();
-                xhr.open("GET", "http://localhost:8000/getTopics", true);
+                xhr.open("GET", "http://localhost:8002/getTopics", true);
                 xhr.responseType = 'json';
                 xhr.onload = function (e) {
                     //                        if (xhr.readyState === xhr.DONE) {
@@ -335,8 +335,8 @@
                     console.log("response info type " + typeof topics)
                     console.log("response info topics " + topics)
                     // console.log("response info topics2 " + topics.sub_topics2)
-                    if (topics.length != subscriber1) {
-                        subscriber1 = topics
+                    if (topics.length != subscriber3) {
+                        subscriber3 = topics
                     }
                 };
                 xhr.onerror = function (e) {

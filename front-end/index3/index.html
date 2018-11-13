@@ -322,6 +322,28 @@
             function include(arr,obj) {
                 return (arr.indexOf(obj) != -1);
             }
+            function getTopics() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "http://localhost:8000/getTopics", true);
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    //                        if (xhr.readyState === xhr.DONE) {
+                    //                            if (xhr.status === 200) {
+                    console.log("response " + xhr.response)
+                    console.log("response info " +xhr.response.info)
+                    var topics = xhr.response.info
+                    console.log("response info type " + typeof topics)
+                    console.log("response info topics " + topics)
+                    // console.log("response info topics2 " + topics.sub_topics2)
+                    if (topics.length != subscriber1) {
+                        subscriber1 = topics
+                    }
+                };
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send();
+            }
 
             //Add Publisher
             function addPublisher(){
@@ -392,7 +414,7 @@
                         document.getElementById("sub_top1").value = "";
                         return
                     }
-                    
+
                     let topic = document.getElementById('sub_top1').value;
                     let click = click_id;
                     subscriber3.push(topic);
@@ -493,14 +515,14 @@
             }
 
             function getval(sub){
-                var data;
-                var final =[];
+   
+                var data =[];
                 for(var i =0; i<publishers.length;i++){
                     if(sub==publishers[i]["topic"]){
-                        final.push(publishers[i]);
+                        data.push(publishers[i]);
                     }
                 }
-                return final;
+                return data;
             }
 
 
@@ -543,6 +565,35 @@
                 xhr.send(sendObject);
 
             }
+            setInterval(
+                function () {
+                    getTopics()
+                    console.log("check update run")
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8001/getFinal", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        // if (xhr.response == null) {} else {
+                        // var obj = JSON.parse(xhr.response)
+                        console.log("OBJECT " + xhr.response)
+                        console.log("OBJECT TYPE" + typeof xhr.response)
+                        console.log("INFO " + JSON.stringify(xhr.response.info))
+                        console.log("TYPE OF INFO " + typeof xhr.response.info)
+                        if (xhr.response.info.length !== final.length) {
+                            final = xhr.response.info;
+                            console.log("FINAL CHANGE " + final)
+                            render_notif(final)
+                        }
+                        //s                            }}
+                        // }
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();
+                }, 5000)
 
 
         </script>
@@ -570,7 +621,7 @@
 
                         <center>
                             <div id='subList'>
-                                <div class='Subscriber 1'>
+                                <div class='Subscriber 3'>
                                     <center><h1>Boston Subscriber</h1></center>
                                     <input type='text' id='sub_top1' class='input' placeholder='Add Topic'>
                                     <button class='button_example' id =subscriber3 onclick= "Subscribe(this.id)">Subscribe</button><br>

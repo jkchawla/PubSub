@@ -223,6 +223,7 @@
                     }
                     document.getElementById("sub_top2").value = "";
                     document.getElementById("subtopic2").innerHTML = text;
+
                 }
 
                 else  if(click_id=='subscriber3'){
@@ -289,7 +290,6 @@
                             //console.log(finalmsg)
                         }
                         finalmsg1+="</li>"
-                        //document.getElementById("subtopic1").innerHTML = "";
                         document.getElementById("subtopic1").innerHTML = finalmsg1;
 
                     }
@@ -352,27 +352,27 @@
 
             function getTopics() {
                 const xhr = new XMLHttpRequest();
-                    xhr.open("GET", "http://localhost:8000/getTopics", true);
-                    xhr.responseType = 'json';
-                    xhr.onload = function (e) {
-                        //                        if (xhr.readyState === xhr.DONE) {
-                        //                            if (xhr.status === 200) {
-                        console.log("response " + xhr.response)
-                        console.log("response info " +xhr.response.info)
+                xhr.open("GET", "http://localhost:8000/getTopics", true);
+                xhr.responseType = 'json';
+                xhr.onload = function (e) {
+                    //                        if (xhr.readyState === xhr.DONE) {
+                    //                            if (xhr.status === 200) {
+                    console.log("response " + xhr.response)
+                    console.log("response info " +xhr.response.info)
 
-                        var topics = xhr.response.info
-                        console.log("response info type " + typeof topics)
-                        console.log("response info topics " + topics)
-                        // console.log("response info topics2 " + topics.sub_topics2)
+                    var topics = xhr.response.info
+                    console.log("response info type " + typeof topics)
+                    console.log("response info topics " + topics)
+                    // console.log("response info topics2 " + topics.sub_topics2)
 
-                        if (topics.length != subscriber1) {
-                            subscriber1 = topics
-                          }
-                    };
-                    xhr.onerror = function (e) {
-                        console.error(xhr.statusText);
-                    };
-                    xhr.send();
+                    if (topics.length != subscriber1) {
+                        subscriber1 = topics
+                    }
+                };
+                xhr.onerror = function (e) {
+                    console.error(xhr.statusText);
+                };
+                xhr.send();
             }
 
 
@@ -412,6 +412,7 @@
             function publish_data(){
 
                 let name = pub_names.slice().pop();
+                console.log("RESPONSE: "+name)
                 if(!(subscriber1.includes(document.getElementById('topic').value))&&!(subscriber2.includes(document.getElementById('topic').value))&&!(subscriber3.includes(document.getElementById('topic').value))){
                     alert('Nobody is subscribed to this topic!')
                     document.getElementById('topic').value = "";
@@ -441,6 +442,7 @@
                         return
                     }
 
+
                     if((subscriber1.includes(document.getElementById('sub_top1').value))){
                         alert('Already Subscribed!')
                         document.getElementById("sub_top1").value = "";
@@ -449,6 +451,7 @@
                     let topic = document.getElementById('sub_top1').value;
                     let click = click_id;
                     subscriber1.push(topic);
+                    console.log("PRINT:" + subscriber1)
                     let Topics = {
                         'sub_topics1': subscriber1,
                         'sub_topics2': subscriber2,
@@ -619,35 +622,35 @@
 
 
 
-           setInterval(
-             function () {
-               getTopics()
-               console.log("check update run")
-                   const xhr = new XMLHttpRequest();
-                   xhr.open("GET", "http://localhost:8000/getFinal", true);
-                   xhr.responseType = 'json';
-                   xhr.onload = function (e) {
-                       //                        if (xhr.readyState === xhr.DONE) {
-                       //                            if (xhr.status === 200) {
-                       // if (xhr.response == null) {} else {
-                       // var obj = JSON.parse(xhr.response)
-                       console.log("OBJECT " + xhr.response)
-                       console.log("OBJECT TYPE" + typeof xhr.response)
-                       console.log("INFO " + JSON.stringify(xhr.response.info))
-                       console.log("TYPE OF INFO " + typeof xhr.response.info)
-                       if (xhr.response.info.length !== final.length) {
-                           final = xhr.response.info;
-                           console.log("FINAL CHANGE " + final)
-                           render_notif(final)
-                       }
-                       //s                            }}
-                   // }
-                 };
-                   xhr.onerror = function (e) {
-                       console.error(xhr.statusText);
-                   };
-                   xhr.send();
-               }, 5000)
+            setInterval(
+                function () {
+                    getTopics()
+                    console.log("check update run")
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8000/getFinal", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        // if (xhr.response == null) {} else {
+                        // var obj = JSON.parse(xhr.response)
+                        console.log("OBJECT " + xhr.response)
+                        console.log("OBJECT TYPE" + typeof xhr.response)
+                        console.log("INFO " + JSON.stringify(xhr.response.info))
+                        console.log("TYPE OF INFO " + typeof xhr.response.info)
+                        if (xhr.response.info.length !== final.length) {
+                            final = xhr.response.info;
+                            console.log("FINAL CHANGE " + final)
+                            render_notif(final)
+                        }
+                        //s                            }}
+                        // }
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();
+                }, 5000)
 
         </script>
 
@@ -710,7 +713,7 @@
                     </div>
                     </center>
                 </div>
-                <script>
+            <script>
                 // const xhr = new XMLHttpRequest();
                 // xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
                 // xhr.setRequestHeader("content-type", "application/json");
@@ -724,7 +727,7 @@
                 //     console.error(xhr.statusText);
                 // };
                 // xhr.send(sendObject);
-                </script>
+            </script>
             </body>
 
         </html>

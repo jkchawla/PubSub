@@ -425,11 +425,11 @@
                     let topic = document.getElementById('sub_top1').value;
                     let click = click_id;
                     subscriber1.push(topic);
-                    let Topics = {
-                        'sub_topics1': subscriber1,
-                        'sub_topics2': subscriber2,
-                        'sub_topics3': subscriber3
-                    }
+//                    let Topics = {
+//                        'sub_topics1': subscriber1,
+//                        'sub_topics2': subscriber2,
+//                        'sub_topics3': subscriber3
+//                    }
                     let sendObject=JSON.stringify({
                         'topic' :topic,
                         'allTopics' : Topics,
@@ -449,8 +449,9 @@
                         console.error(xhr.statusText);
                     };
                     xhr.send(sendObject);
-                }   
-                if( click_id =='subscriber2'){
+                }
+                
+                else if( click_id =='subscriber2'){
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "http://localhost:8001/subscriber/subscribe", true);
                     xhr.setRequestHeader("content-type", "application/json");
@@ -470,12 +471,12 @@
                     let topic = document.getElementById('sub_top2').value;
                     let click = click_id;
                     subscriber2.push(topic);
-                    console.log("PRINT:" + subscriber2)
                     let Topics = {
                         'sub_topics1': subscriber1,
                         'sub_topics2': subscriber2,
                         'sub_topics3': subscriber3
                     }
+                    console.log("PRINT:" + subscriber2)
                     let sendObject=JSON.stringify({
                         'topic' :topic,
                         'allTopics' : Topics,

@@ -200,9 +200,9 @@
                 //console.log(subscriber);
                 var x=[]
                 var text="";
-                if(click_id=='subscriber3'){
-                    for (i = 0; i<subscriber3.length;i++){
-                        x.push("<li>"+subscriber3[i]+"</li>");
+                if(click_id=='subscriber1'){
+                    for (i = 0; i<subscriber1.length;i++){
+                        x.push("<li>"+subscriber1[i]+"</li>");
                     }
                     //console.log(x);
 
@@ -212,7 +212,7 @@
                     document.getElementById("sub_top1").innerHTML = "";
                     document.getElementById("subtopic1").innerHTML = text;
                 }
-                else if(click_id=='subscriber2'){
+                if(click_id=='subscriber2'){
                     for (i = 0; i<subscriber2.length;i++){
                         x.push("<li>"+subscriber2[i]+"</li>");
                     }
@@ -223,9 +223,10 @@
                     }
                     document.getElementById("sub_top2").value = "";
                     document.getElementById("subtopic2").innerHTML = text;
+
                 }
 
-                else if(click_id=='subscriber1'){
+                else if(click_id=='subscriber3'){
                     for (i = 0; i<subscriber3.length;i++){
                         x.push("<li>"+subscriber3[i]+"</li>");
                     }
@@ -236,7 +237,7 @@
                     }
                     document.getElementById("sub_top3").value = "";
                     document.getElementById("subtopic3").innerHTML = text;
-                }
+                } 
 
 
 
@@ -252,348 +253,375 @@
 
                 for(var i =0;i<final.length;i++){
 
-                    if(final[i]["name"]=="Subscriber3"){
+                    var finalmsg1 ="";
+                    var finalmsg2 ="";
+                    var finalmsg3 ="";
 
-                        finalmsg1+="<li>"+final[i]["topic"];
-                        data =final[i]["data"]
-                        for (var j =0; j<data.length;j++){
+                    var data =[];
 
-                            finalmsg1+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
-                            //console.log(finalmsg)
+
+                    for(var i =0;i<final.length;i++){
+
+
+                        if(final[i]["name"]=="Subscriber1"){
+
+                            finalmsg1+="<li>"+final[i]["topic"];
+                            data =final[i]["data"]
+                            for (var j =0; j<data.length;j++){
+
+                                finalmsg1+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                                //console.log(finalmsg)
+                            }
+                            finalmsg1+="</li>"
+                            //document.getElementById("subtopic1").innerHTML = "";
+                            //document.getElementById("subtopic1").innerHTML = finalmsg1;
+
                         }
-                        finalmsg1+="</li>"
-                        //document.getElementById("subtopic1").innerHTML = "";
-                        document.getElementById("subtopic1").innerHTML = finalmsg1;
-                        console.log(finalmsg1)
 
+                        else if(final[i]["name"]=="Subscriber2"){
+
+                            finalmsg2+="<li>"+final[i]["topic"];
+                            data =final[i]["data"]
+                            for (var j =0; j<data.length;j++){
+                                finalmsg2+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                                //console.log(finalmsg)
+                            }
+                            finalmsg2+="</li>"
+                            //document.getElementById("subtopic2").innerHTML = finalmsg2;
+
+                        }
+                        else if(final[i]["name"]=="Subscriber3"){
+                            finalmsg3+="<li>"+final[i]["topic"];
+                            data =final[i]["data"]
+                            for (var j =0; j<data.length;j++){
+                                finalmsg3+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
+                                //console.log(finalmsg)
+                            }
+                            finalmsg3+="</li>"
+                            document.getElementById("subtopic3").innerHTML = finalmsg3;
+                        }
+
+                        name+="</li>"
+                        //document.getElementById("subtopic3").innerHTML = name;
                     }
-                    //                    else if(final[i]["name"]=="Subscriber2"){
-                    //                        finalmsg2+="<li>"+final[i]["topic"];
-                    //                        data =final[i]["data"]
-                    //                        for (var j =0; j<data.length;j++){
-                    //                            finalmsg2+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
-                    //                            //console.log(finalmsg)
-                    //                        }
-                    //                        finalmsg2+="</li>"
-                    //                        document.getElementById("subtopic2").innerHTML = finalmsg2;
-                    //                    }
-                    //                    else if(final[i]["name"]=="Subscriber3"){
-                    //                        finalmsg3+="<li>"+final[i]["topic"];
-                    //                        data =final[i]["data"]
-                    //                        for (var j =0; j<data.length;j++){
-                    //                            finalmsg3+="<ul class ='b'><li>Message: "+data[j]["message"]+ "<br> Publisher: "+data[j]["name"]+"</li></ul>";
-                    //                            //console.log(finalmsg)
-                    //                        }
-                    //                        finalmsg3+="</li>"
-                    //                        document.getElementById("subtopic3").innerHTML = finalmsg3;
-                    //                    }
-
-                    //                    name+="</li>"
-                    //                    document.getElementById("subtopic").innerHTML = name;
                 }
-            }
 
 
-            //Render publisher Data aka Advertise
-            function _render_pub(name,topic,message){
-                var data= {
-                    name: name,
-                    topic: topic,
-                    message: message
-                }
-                publishers.push(data);
-                document.getElementById("topic").value = "";
-                document.getElementById("msg").value = "";
-                document.getElementById('name1').innerHTML= "";
-                var text = ""
-                var x=[]
-                for (i=0;i<publishers.length;i++){
-                    text= "<li> Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br></li>";
-                    x.push(text);
-                }
-                for (i=0;i<x.length;i++){
-                    text += x[i] + "<br>";
-                }
-                document.getElementById('Info').innerHTML= x;
-
-                notify(subscriber1,subscriber2,subscriber3);
-
-            }
-            function include(arr,obj) {
-                return (arr.indexOf(obj) != -1);
-            }
-            function getTopics() {
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", "http://localhost:8002/getTopics", true);
-                xhr.responseType = 'json';
-                xhr.onload = function (e) {
-                    //                        if (xhr.readyState === xhr.DONE) {
-                    //                            if (xhr.status === 200) {
-                    console.log("response " + xhr.response)
-                    console.log("response info " +xhr.response.info)
-                    var topics = xhr.response.info
-                    console.log("response info type " + typeof topics)
-                    console.log("response info topics " + topics)
-                    // console.log("response info topics2 " + topics.sub_topics2)
-                    if (topics.length != subscriber3) {
-                        subscriber3 = topics
+                //Render publisher Data aka Advertise
+                function _render_pub(name,topic,message){
+                    var data= {
+                        name: name,
+                        topic: topic,
+                        message: message
                     }
-                };
-                xhr.onerror = function (e) {
-                    console.error(xhr.statusText);
-                };
-                xhr.send();
-            }
+                    publishers.push(data);
+                    document.getElementById("topic").value = "";
+                    document.getElementById("msg").value = "";
+                    document.getElementById('name1').innerHTML= "";
+                    var text = ""
+                    var x=[]
+                    for (i=0;i<publishers.length;i++){
+                        text= "<li> Publisher: "+publishers[i]["name"] + "<br>"+ "Topic: "+ publishers[i]["topic"] + "<br>"+ "Message: "+ publishers[i]["message"]+ "<br></li>";
+                        x.push(text);
+                    }
+                    for (i=0;i<x.length;i++){
+                        text += x[i] + "<br>";
+                    }
+                    document.getElementById('Info').innerHTML= x;
 
-            //Add Publisher
-            function addPublisher(){
+                    notify(subscriber1,subscriber2,subscriber3);
 
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8002/publisher/add", true);
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("cache-control", "no-cache");
-                if (!(document.getElementById('add_pub').value)){
-                    alert('Please give your publisher a name!')
-                    return
                 }
-
-
-                //console.log(subscriber)
-                let name = document.getElementById('add_pub').value;
-                let sendObject=JSON.stringify({
-                    'name':name
-                });
-                xhr.responseType = 'json';
-                xhr.onload = function (e) {
-                    if (xhr.readyState === xhr.DONE) {
-                        if (xhr.status === 200) {
-                            _render_p(xhr.response.name)
-                            //console.log("SERVER RESPONSE " + xhr.response.name)
-                        }}};
-                xhr.onerror = function (e) {
-                    console.error(xhr.statusText);
-                };
-                xhr.send(sendObject);
-            }
-
-            //Publish Data AKA Advertise
-            function publish_data(){
-
-                let name = pub_names.slice().pop();
-                if(!(subscriber1.includes(document.getElementById('topic').value))&&!(subscriber2.includes(document.getElementById('topic').value))&&!(subscriber3.includes(document.getElementById('topic').value))){
-                    alert('Nobody is subscribed to this topic!')
-                    document.getElementById('topic').value = "";
-                    document.getElementById('msg').value = "";
-                    return
+                function include(arr,obj) {
+                    return (arr.indexOf(obj) != -1);
                 }
-
-                let topic = document.getElementById('topic').value;
-                let message = document.getElementById('msg').value;
-                _render_pub(name,topic,message)
-
-
-
-
-            }
-
-
-            //Subscriber to a Topic
-            function Subscribe(click_id){
-                if(click_id=="subscriber3"){
+                function getTopics() {
                     const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
+                    xhr.open("GET", "http://localhost:8002/getTopics", true);
+                    xhr.responseType = 'json';
+                    xhr.onload = function (e) {
+                        //                        if (xhr.readyState === xhr.DONE) {
+                        //                            if (xhr.status === 200) {
+                        console.log("response " + xhr.response)
+                        console.log("response info " +xhr.response.info)
+                        var topics = xhr.response.info
+                        console.log("response info type " + typeof topics)
+                        console.log("response info topics " + topics)
+                        // console.log("response info topics2 " + topics.sub_topics2)
+                        if (topics.length != subscriber3) {
+                            subscriber3 = topics
+                        }
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send();
+                }
+
+                //Add Publisher
+                function addPublisher(){
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://localhost:8002/publisher/add", true);
                     xhr.setRequestHeader("content-type", "application/json");
                     xhr.setRequestHeader("cache-control", "no-cache");
-                    if (!(document.getElementById('sub_top1').value)){
-                        alert('Please specify a topic!')
+                    if (!(document.getElementById('add_pub').value)){
+                        alert('Please give your publisher a name!')
                         return
                     }
 
-                    if((subscriber3.includes(document.getElementById('sub_top1').value))){
-                        alert('Already Subscribed!')
-                        document.getElementById("sub_top1").value = "";
-                        return
-                    }
 
-                    let topic = document.getElementById('sub_top1').value;
-                    let click = click_id;
-                    subscriber3.push(topic);
+                    //console.log(subscriber)
+                    let name = document.getElementById('add_pub').value;
                     let sendObject=JSON.stringify({
-                        'topic' :topic,
-                        'topics': subscriber3,
-                        'click': click
-
+                        'name':name
                     });
-                    console.log(sendObject)
-
                     xhr.responseType = 'json';
                     xhr.onload = function (e) {
                         if (xhr.readyState === xhr.DONE) {
                             if (xhr.status === 200) {
-                                _render_s(xhr.response.topic,xhr.response.topics, xhr.response.click)
-                                console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
-                                //                                console.log("Server Response " + xhr.response.click)
+                                _render_p(xhr.response.name)
+                                //console.log("SERVER RESPONSE " + xhr.response.name)
                             }}};
                     xhr.onerror = function (e) {
                         console.error(xhr.statusText);
                     };
                     xhr.send(sendObject);
                 }
-                //                else if( click_id =='subscriber2'){
-                //                    const xhr = new XMLHttpRequest();
-                //                    xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
-                //                    xhr.setRequestHeader("content-type", "application/json");
-                //                    xhr.setRequestHeader("cache-control", "no-cache");
-                //                    if (!(document.getElementById('sub_top2').value)){
-                //                        alert('Please specify a topic!')
-                //                        return
-                //                    }
-                //
-                //                    if((subscriber2.includes(document.getElementById('sub_top2').value))){
-                //                        alert('Already Subscribed!')
-                //
-                //                        return
-                //                    }
-                //                    let topic = document.getElementById('sub_top2').value;
-                //                    subscriber2.push(topic);
-                //                    let sendObject=JSON.stringify({
-                //                        'topic' :topic,
-                //                        'topics': subscriber2,
-                //                        'click': click
-                //
-                //                    });
-                //                    xhr.responseType = 'json';
-                //                    xhr.onload = function (e) {
-                //                        if (xhr.readyState === xhr.DONE) {
-                //                            if (xhr.status === 200) {
-                //                                // _render_s(xhr.response.topic,click_id)
-                //                                //console.log("SERVER RESPONSE " + xhr.response.topic)
-                //                            }}};
-                //                    xhr.onerror = function (e) {
-                //                        console.error(xhr.statusText);
-                //                    };
-                //                    xhr.send(sendObject);
-                //                }
-                //                else if(click_id == 'subscriber3'){
-                //                    const xhr = new XMLHttpRequest();
-                //                    xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
-                //                    xhr.setRequestHeader("content-type", "application/json");
-                //                    xhr.setRequestHeader("cache-control", "no-cache");
-                //                    if (!(document.getElementById('sub_top3').value)){
-                //                        alert('Please specify a topic!')
-                //                        return
-                //                    }
-                //
-                //                    if((subscriber3.includes(document.getElementById('sub_top3').value))){
-                //                        alert('Already Subscribed!')
-                //                        document.getElementById("sub_top2").value = "";
-                //                        return
-                //                    }
-                //                    let topic = document.getElementById('sub_top3').value;
-                //                    subscriber3.push(topic);
-                //                    let sendObject=JSON.stringify({
-                //                        'topic' :topic,
-                //                        'topics': subscriber3,
-                //                        'click': click
-                //
-                //                    });
-                //                    xhr.responseType = 'json';
-                //                    xhr.onload = function (e) {
-                //                        if (xhr.readyState === xhr.DONE) {
-                //                            if (xhr.status === 200) {
-                //                                // _render_s(xhr.response.topic,xhr.response.click, xhr.response.topics)
-                //                                //console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
-                //                                //                                console.log(xhr.response.click)
-                //                            }}};
-                //                    xhr.onerror = function (e) {
-                //                        console.error(xhr.statusText);
-                //                    };
-                //                    xhr.send(sendObject);
-                //                }
+
+                //Publish Data AKA Advertise
+                function publish_data(){
+
+                    let name = pub_names.slice().pop();
+                    if(!(subscriber1.includes(document.getElementById('topic').value))&&!(subscriber2.includes(document.getElementById('topic').value))&&!(subscriber3.includes(document.getElementById('topic').value))){
+                        alert('Nobody is subscribed to this topic!')
+                        document.getElementById('topic').value = "";
+                        document.getElementById('msg').value = "";
+                        return
+                    }
+
+                    let topic = document.getElementById('topic').value;
+                    let message = document.getElementById('msg').value;
+                    _render_pub(name,topic,message)
 
 
-            }
 
-            function getval(sub){
 
-                var data =[];
-                for(var i =0; i<publishers.length;i++){
-                    if(sub==publishers[i]["topic"]){
-                        data.push(publishers[i]);
+                }
+
+
+                //Subscriber to a Topic
+                function Subscribe(click_id){
+                    if(click_id=="subscriber1"){
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "http://localhost:8000/subscriber/subscribe", true);
+                        xhr.setRequestHeader("content-type", "application/json");
+                        xhr.setRequestHeader("cache-control", "no-cache");
+                        if (!(document.getElementById('sub_top1').value)){
+                            alert('Please specify a topic!')
+                            return
+                        }
+
+
+                        if((subscriber1.includes(document.getElementById('sub_top1').value))){
+                            alert('Already Subscribed!')
+                            document.getElementById("sub_top1").value = "";
+                            return
+                        }
+                        let topic = document.getElementById('sub_top1').value;
+                        let click = click_id;
+                        subscriber1.push(topic);
+                        let Topics = {
+                            'sub_topics1': subscriber1,
+                            'sub_topics2': subscriber2,
+                            'sub_topics3': subscriber3
+                        }
+                        let sendObject=JSON.stringify({
+                            'topic' :topic,
+                            'allTopics' : Topics,
+                            'click': click
+
+                        });
+                        console.log(sendObject)
+
+                        xhr.responseType = 'json';
+                        xhr.onload = function (e) {
+                            if (xhr.readyState === xhr.DONE) {
+                                if (xhr.status === 200) {
+                                    _render_s(xhr.response.topic,xhr.response.sub_topics1, xhr.response.click)
+                                    // console.log("SERVER RESPONSE " + xhr.response.topic +" ," + xhr.response.topics + "," + xhr.response.click)
+                                }}};
+                        xhr.onerror = function (e) {
+                            console.error(xhr.statusText);
+                        };
+                        xhr.send(sendObject);
+                    }   
+                    else if( click_id =='subscriber2'){
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
+                        xhr.setRequestHeader("content-type", "application/json");
+                        xhr.setRequestHeader("cache-control", "no-cache");
+                        if (!(document.getElementById('sub_top2').value)){
+                            alert('Please specify a topic!')
+                            return
+                        }
+
+                        if((subscriber2.includes(document.getElementById('sub_top2').value))){
+                            alert('Already Subscribed!')
+                            document.getElementById("sub_top2").value = "";
+                            return
+
+                            return
+                        }
+                        let topic = document.getElementById('sub_top2').value;
+                        let click = click_id;
+                        subscriber2.push(topic);
+                        let Topics = {
+                            'sub_topics1': subscriber1,
+                            'sub_topics2': subscriber2,
+                            'sub_topics3': subscriber3
+                        }
+                        console.log("PRINT:" + subscriber2)
+                        let Topics = {
+                            'sub_topics1': subscriber1,
+                            'sub_topics2': subscriber2,
+                            'sub_topics3': subscriber3
+                        }
+                        let sendObject=JSON.stringify({
+                            'topic' :topic,
+                            'allTopics' : Topics,
+                            'click': click
+
+                        });
+                        console.log(sendObject)
+                        xhr.responseType = 'json';
+                        xhr.onload = function (e) {
+                            if (xhr.readyState === xhr.DONE) {
+                                if (xhr.status === 200) {
+                                    _render_s(xhr.response.topic,xhr.response.sub_topics2, xhr.response.click)
+                                    // _render_s(xhr.response.topic,click_id)
+
+                                    //console.log("SERVER RESPONSE " + xhr.response.topic)
+                                }}};
+                        xhr.onerror = function (e) {
+                            console.error(xhr.statusText);
+                        };
+                        xhr.send(sendObject);
+                    }
+                    else if(click_id == 'subscriber3'){
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "http://localhost:8002/subscriber/subscribe", true);
+                        xhr.setRequestHeader("content-type", "application/json");
+                        xhr.setRequestHeader("cache-control", "no-cache");
+                        if (!(document.getElementById('sub_top3').value)){
+                            alert('Please specify a topic!')
+                            return
+                        }
+
+                        if((subscriber3.includes(document.getElementById('sub_top3').value))){
+                            alert('Already Subscribed!')
+                            document.getElementById("sub_top3").value = "";
+                            return
+                        }
+                        let topic = document.getElementById('sub_top3').value;
+                        let click = click_id;
+                        subscriber3.push(topic);
+                        let Topics = {
+                            'sub_topics1': subscriber1,
+                            'sub_topics2': subscriber2,
+                            'sub_topics3': subscriber3
+                        }
+                        let sendObject=JSON.stringify({
+                            'topic' :topic,
+                            'allTopics' : Topics,
+                            'click': click
+
+                        });
                     }
                 }
-                return data;
-            }
 
 
-            function notify(sub1,sub2,sub3){
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8002/publisher/publish", true);
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("cache-control", "no-cache");
+                function getval(sub){
 
-                for(var i =0; i<sub1.length;i++){
-                    final.push({name: "Subscriber1",
-                                topic: sub1[i],
-                                data:getval(sub1[i])});
-                }
-                for(var i =0; i<sub2.length;i++){
-                    final.push({name: "Subscriber2",
-                                topic: sub2[i],
-                                data:getval(sub2[i])});
-                }
-                for(var i =0; i<sub3.length;i++){
-                    final.push({name: "Subscriber3",
-                                topic: sub3[i],
-                                data:getval(sub3[i])});
+                    var data =[];
+                    for(var i =0; i<publishers.length;i++){
+                        if(sub==publishers[i]["topic"]){
+                            data.push(publishers[i]);
+                        }
+                    }
+                    return data;
                 }
 
-                let sendObject=JSON.stringify(final);
-                console.log(sendObject)
 
-                xhr.responseType = 'json';
-                xhr.onload = function (e) {
-                    if (xhr.readyState === xhr.DONE) {
-                        if (xhr.status === 200) {
-                            render_notif(xhr.response)
-                            final=[];
-                            console.log("SERVER RESPONSE ")
-                        }}};
-                xhr.onerror = function (e) {
-                    console.error(xhr.statusText);
-                };
-                xhr.send(sendObject);
-
-            }
-            setInterval(
-                function () {
-                    getTopics()
-                    console.log("check update run")
+                function notify(sub1,sub2,sub3){
                     const xhr = new XMLHttpRequest();
-                    xhr.open("GET", "http://localhost:8001/getFinal", true);
+                    xhr.open("POST", "http://localhost:8002/publisher/publish", true);
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("cache-control", "no-cache");
+
+                    for(var i =0; i<sub1.length;i++){
+                        final.push({name: "Subscriber1",
+                                    topic: sub1[i],
+                                    data:getval(sub1[i])});
+                    }
+                    for(var i =0; i<sub2.length;i++){
+                        final.push({name: "Subscriber2",
+                                    topic: sub2[i],
+                                    data:getval(sub2[i])});
+                    }
+                    for(var i =0; i<sub3.length;i++){
+                        final.push({name: "Subscriber3",
+                                    topic: sub3[i],
+                                    data:getval(sub3[i])});
+                    }
+
+                    let sendObject=JSON.stringify(final);
+                    console.log(sendObject)
+
                     xhr.responseType = 'json';
                     xhr.onload = function (e) {
-                        //                        if (xhr.readyState === xhr.DONE) {
-                        //                            if (xhr.status === 200) {
-                        // if (xhr.response == null) {} else {
-                        // var obj = JSON.parse(xhr.response)
-                        console.log("OBJECT " + xhr.response)
-                        console.log("OBJECT TYPE" + typeof xhr.response)
-                        console.log("INFO " + JSON.stringify(xhr.response.info))
-                        console.log("TYPE OF INFO " + typeof xhr.response.info)
-                        if (xhr.response.info.length !== final.length) {
-                            final = xhr.response.info;
-                            console.log("FINAL CHANGE " + final)
-                            render_notif(final)
-                        }
-                        //s                            }}
-                        // }
-                    };
+                        if (xhr.readyState === xhr.DONE) {
+                            if (xhr.status === 200) {
+                                render_notif(xhr.response)
+                                final=[];
+                                console.log("SERVER RESPONSE ")
+                            }}};
                     xhr.onerror = function (e) {
                         console.error(xhr.statusText);
                     };
-                    xhr.send();
-                }, 5000)
+                    xhr.send(sendObject);
+
+                }
+
+                setInterval(
+                    function () {
+                        getTopics()
+                        console.log("check update run")
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("GET", "http://localhost:8002/getFinal", true);
+                        xhr.responseType = 'json';
+                        xhr.onload = function (e) {
+                            //                        if (xhr.readyState === xhr.DONE) {
+                            //                            if (xhr.status === 200) {
+                            // if (xhr.response == null) {} else {
+                            // var obj = JSON.parse(xhr.response)
+                            console.log("OBJECT " + xhr.response)
+                            console.log("OBJECT TYPE" + typeof xhr.response)
+                            console.log("INFO " + JSON.stringify(xhr.response.info))
+                            console.log("TYPE OF INFO " + typeof xhr.response.info)
+                            if (xhr.response.info.length !== final.length) {
+                                final = xhr.response.info;
+                                console.log("FINAL CHANGE " + final)
+                                render_notif(final)
+                            }
+                            //s                            }}
+                            // }
+                        };
+                        xhr.onerror = function (e) {
+                            console.error(xhr.statusText);
+                        };
+                        xhr.send();
+                    }, 5000)
 
 
         </script>
@@ -625,7 +653,7 @@
                                     <center><h1>Boston Subscriber</h1></center>
                                     <input type='text' id='sub_top3' class='input' placeholder='Add Topic'>
                                     <button class='button_example' id =subscriber3 onclick= "Subscribe(this.id)">Subscribe</button><br>
-                                    <p id=subtopic1></p><br><br><br><br><br><br><br><br>
+                                    <p id=subtopic3></p><br><br><br><br><br><br><br><br>
                                 </div>
 
                                 <!--
